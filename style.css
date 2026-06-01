@@ -1,0 +1,159 @@
+/* Configuración General */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.contenedor-principal {
+    max-width: 800px;
+    background: #ffffff;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: #1a365d;
+    text-align: center;
+}
+
+/* Formulario en dos columnas */
+#formularioMigracion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.grupo-formulario {
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo-formulario label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #4a5568;
+}
+
+input[type="text"], input[type="tel"], input[type="url"], input[type="date"], input[type="time"], select, textarea {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #fff;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #3182ce;
+    outline: none;
+}
+
+/* Estilo especial para Checkbox */
+.checkbox-grupo {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox-grupo input {
+    width: 18px;
+    height: 18px;
+}
+
+/* Botones */
+.botones-container {
+    grid-column: span 2;
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary {
+    background-color: #3182ce;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2b6cb0;
+}
+
+.btn-danger {
+    background-color: #e53e3e;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c53030;
+}
+
+/* Bloques de Resultados */
+.contenedor-resultados {
+    border-top: 2px solid #e2e8f0;
+    padding-top: 20px;
+}
+
+.resultado-bloque {
+    margin-bottom: 15px;
+}
+
+.resultado-bloque label {
+    font-weight: bold;
+    color: #2d3748;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.caja-texto {
+    background-color: #edf2f7;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 14px;
+    min-height: 20px;
+    border-left: 4px solid #3182ce;
+    word-break: break-all;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: monospace;
+    background-color: #fafafa;
+    resize: vertical;
+}
+
+/* Media Query: Si la pantalla mide menos de 768px (pantallas chicas) */
+@media (max-width: 768px) {
+    #formularioMigracion {
+        grid-template-columns: 1fr; /* Cambia de 2 columnas a solo 1 columna */
+        gap: 10px;
+    }
+
+    .checkbox-grupo, .botones-container {
+        grid-column: span 1; /* Los elementos ocupan todo el ancho disponible */
+    }
+
+    .botones-container {
+        flex-direction: column; /* Alinea los botones uno debajo del otro */
+    }
+}

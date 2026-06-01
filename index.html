@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente de Migración - Diener Law</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor-principal">
+        <h1>Asistente de Llamadas - Diener Law</h1>
+        
+        <!-- Formulario enfocado solo en capturar los datos -->
+        <form id="formularioMigracion">
+            <div class="grupo-formulario">
+                <label for="nombre">Nombre del Cliente:</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. David Padilla">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Ej. 3222790974">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="estadoCivil">Estado Civil:</label>
+                <select id="estadoCivil" name="estadoCivil">
+                    <option value="">--Selecciona--</option>
+                    <option value="Soltero/a">Soltero/a</option>
+                    <option value="Casado/a">Casado/a</option>
+                    <option value="Unión Libre">Unión Libre</option>
+                    <option value="Divorciado/a">Divorciado/a</option>
+                </select>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="fechaEntrada">Fecha de Entrada EE.UU:</label>
+                <input type="date" id="fechaEntrada" name="fechaEntrada">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="zohoUrl">URL de Zoho Desk:</label>
+                <input type="url" id="zohoUrl" name="zohoUrl" placeholder="https://zoho.com...">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="ticketId">ID del Ticket:</label>
+                <input type="text" id="ticketId" name="ticketId" placeholder="Ej. TIKD-1234">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="oficina">Oficina de la Cita:</label>
+                <select id="oficina" name="oficina">
+                    <option value="">--Selecciona Oficina--</option>
+                    <option value="Phoenix">Phoenix</option>
+                    <option value="Fontana">Fontana</option>
+                    <option value="Santa Ana">Santa Ana</option>
+                    <option value="Lynwood">Lynwood</option>
+                </select>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="fechaCita">Fecha de la Cita:</label>
+                <input type="date" id="fechaCita" name="fechaCita">
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="horaCita">Hora de la Cita:</label>
+                <input type="time" id="horaCita" name="horaCita">
+            </div>
+
+            <div class="grupo-formulario checkbox-grupo">
+                <input type="checkbox" id="deportaciones" name="deportaciones">
+                <label for="deportaciones">¿Tiene deportaciones o detenciones?</label>
+            </div>
+
+            <!-- BOTÓN PROCESAR: Se queda aquí arriba para activarse al terminar de escribir -->
+            <div class="botones-container">
+                <button type="button" id="btnProcesar" class="btn-primary">Procesar e Inyectar Datos</button>
+            </div>
+        </form>
+
+        <!-- Bloques de Resultados Visuales -->
+        <div class="contenedor-resultados">
+            <h2>Resultados Listos para Copiar</h2>
+            
+            <div class="resultado-bloque">
+                <label>Tag de Cita:</label>
+                <div id="resultadoTag" class="caja-texto"></div>
+            </div>
+
+            <div class="resultado-bloque">
+                <label>Mensaje SMS de Confirmación:</label>
+                <div id="resultadoSms" class="caja-texto"></div>
+            </div>
+
+            <div class="resultado-bloque">
+                <label>Historial Completo de Conversación:</label>
+                <textarea id="resultadoHistorial" rows="10" readonly></textarea>
+            </div>
+            
+            <!-- BOTÓN LIMPIAR: Posicionado estratégicamente al final de todo el sistema -->
+            <div class="botones-container" style="margin-top: 25px;">
+                <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
