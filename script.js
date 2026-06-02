@@ -109,6 +109,10 @@ activarBotonCopiado("btnCopiarTag", "resultadoTag", "alertaTag");
 activarBotonCopiado("btnCopiarSms", "resultadoSms", "alertaSms");
 activarBotonCopiado("btnCopiarExcel", "resultadoFilaExcel", "alertaExcel");
 
+// NUEVA LÍNEA: Vincula el botón de las notas de la llamada
+activarBotonCopiado("btnCopiarHistorial", "resultadoHistorial", "alertaHistorial");
+
+
 // === 3. BOTÓN LIMPIAR ===
 document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("formularioMigracion").reset();

@@ -110,13 +110,17 @@
         <span id="alertaSms" class="mensaje-exito"></span>
     </div>
 
-    <!-- 3. BLOQUE HISTORIAL -->
+    <!-- 3. BLOQUE HISTORIAL (¡Ahora con Botón de Copiar!) -->
     <div class="resultado-bloque">
-        <label>Historial Completo de Conversación:</label>
-        <textarea id="resultadoHistorial" rows="8" readonly></textarea>
+        <label>Historial Completo de Conversación (Notas):</label>
+        <div class="fila-copiado" style="align-items: flex-start;">
+            <textarea id="resultadoHistorial" rows="8" readonly></textarea>
+            <button type="button" id="btnCopiarHistorial" class="btn-copiar-corto">Copiar Notas</button>
+        </div>
+        <span id="alertaHistorial" class="mensaje-exito"></span>
     </div>
 
-    <!-- 4. BLOQUE ÚNICO EXCEL (Se eliminó el duplicado en blanco) -->
+    <!-- 4. BLOQUE ÚNICO EXCEL -->
     <div class="resultado-bloque">
         <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
         <div class="fila-copiado">
@@ -126,22 +130,12 @@
         <span id="alertaExcel" class="mensaje-exito"></span>
     </div>
     
-    <!-- Botón Limpiar al final de todo -->
+    <!-- EL ÚNICO BOTÓN LIMPIAR DEL SISTEMA -->
     <div class="botones-container" style="margin-top: 25px;">
         <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
     </div>
 </div>
 
-
-
-
-
-            <!-- BOTÓN LIMPIAR: Posicionado estratégicamente al final de todo el sistema -->
-            <div class="botones-container" style="margin-top: 25px;">
-                <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
-            </div>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
