@@ -88,33 +88,38 @@
 
         <!-- Bloques de Resultados Visuales -->
         <div class="contenedor-resultados">
-            <h2>Resultados Listos para Copiar</h2>
-            
-            <div class="resultado-bloque">
-                <label>Tag de Cita:</label>
-                <div id="resultadoTag" class="caja-texto"></div>
-            </div>
+    <h2>Resultados Listos para Copiar</h2>
+    
+    <!-- 1. BLOQUE TAG -->
+    <div class="resultado-bloque">
+        <label id="etiquetaTag">Tag de Cita (Haz clic abajo para copiar):</label>
+        <div id="resultadoTag" class="caja-texto" style="cursor: pointer;"></div>
+    </div>
 
-            <div class="resultado-bloque">
-                <label>Mensaje SMS de Confirmación:</label>
-                <div id="resultadoSms" class="caja-texto"></div>
-            </div>
+    <!-- 2. BLOQUE SMS -->
+    <div class="resultado-bloque">
+        <label id="etiquetaSms">Mensaje SMS de Confirmación (Haz clic abajo para copiar):</label>
+        <div id="resultadoSms" class="caja-texto" style="cursor: pointer;"></div>
+    </div>
 
-            <div class="resultado-bloque">
-                <label>Historial Completo de Conversación:</label>
-                <textarea id="resultadoHistorial" rows="10" readonly></textarea>
-            </div>
+    <!-- 3. BLOQUE HISTORIAL -->
+    <div class="resultado-bloque">
+        <label>Historial Completo de Conversación:</label>
+        <textarea id="resultadoHistorial" rows="10" readonly></textarea>
+    </div>
 
-            <div class="resultado-bloque">
-    <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
-    <!-- Usamos un input de solo lectura para copiarlo con un clic -->
-    <input type="text" id="resultadoFilaExcel" readonly style="width: 100%; background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace;">
+    <!-- 4. BLOQUE ÚNICO EXCEL -->
+    <div class="resultado-bloque">
+        <label id="etiquetaExcel">Línea para Google Sheets (Haz clic abajo para copiar):</label>
+        <input type="text" id="resultadoFilaExcel" readonly style="width: 100%; background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace; cursor: pointer;">
+    </div>
+    
+    <!-- Botón Limpiar al final de todo -->
+    <div class="botones-container" style="margin-top: 25px;">
+        <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
+    </div>
 </div>
-<div class="resultado-bloque">
-    <!-- Le ponemos un ID a la etiqueta para poder cambiar su texto con JavaScript -->
-    <label id="etiquetaExcel">Línea para Google Sheets (Haz clic abajo para copiar):</label>
-    <input type="text" id="resultadoFilaExcel" readonly style="width: 100%; background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace; cursor: pointer;">
-</div>
+
 
 
             <!-- BOTÓN LIMPIAR: Posicionado estratégicamente al final de todo el sistema -->
