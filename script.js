@@ -72,6 +72,27 @@ Cita Confirmada: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficin
     document.getElementById("resultadoSms").innerText = mensajeSms;
     document.getElementById("resultadoHistorial").value = historialCompleto;
 
+	    // === NUEVA LÓGICA: FILA DE EXCEL MANUAL CON TABULACIONES (\t) ===
+    // El orden de tus columnas es: Call Date (A) | Appt date (B) | Hour (C) | STAGE (D) | Update Appt (E) | Phone (F) | Office (G) | PC Name (H) | TIKD (I) | Zoho ID (J) | Outcome (K) | Payment Note (L)
+    // Como la fecha de la llamada (A) la puedes poner arrastrando en Excel, esta línea llenará desde la B hasta la J de un solo golpe.
+    
+    let columnaB_apptDate = fechaCita;
+    let columnaC_hour = horaFormateada;
+    let columnaD_stage = "NUEVO";
+    let columnaE_updateAppt = ""; // Vacío por el momento
+    let columnaF_phone = telefono;
+    let columnaG_office = oficinaSeleccionada;
+    let columnaH_pcName = "FERNANDO PADILLA";
+    let columnaI_tikd = ticketId;
+    let columnaJ_zohoId = zohoUrl;
+
+    // Unimos todos los datos separados por la tabulación (\t)
+    let filaExcelFormateada = `${columnaB_apptDate}\t${columnaC_hour}\t${columnaD_stage}\t${columnaE_updateAppt}\t${columnaF_phone}\t${columnaG_office}\t${columnaH_pcName}\t${columnaI_tikd}\t${columnaJ_zohoId}`;
+
+    // Inyectamos la línea en el nuevo campo verde de la pantalla
+    document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
+
+
     // ================= CONEXIÓN DIRECTA A GOOGLE SHEETS =================
     // REEMPLAZA las X con tu URL real de Apps Script terminada en /exec
     const urlGoogleSheets = "https://google.com";
@@ -107,6 +128,37 @@ Cita Confirmada: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficin
         alert("❌ Error: Los textos se generaron pero la base de datos no respondió.");
     });
 });
+
+// === ESCUCHAR EL CLIC DENTRO DEL CUADRO VERDE ===
+document.getElementById("resultadoFilaExcel").addEventListener("click", function() {
+    
+    // 1. Obtener el texto que está guardado dentro de la casilla
+    let textoA_Copiar = this.value;
+    
+    // Validar que la casilla no esté vacía antes de copiar
+    if (!textoA_Copiar) {
+        return; 
+    }
+
+    // 2. Guardar el texto automáticamente en el portapapeles del sistema (PC o Celular)
+    navigator.clipboard.writeText(textoA_Copiar).then(() => {
+        
+        // 3. EFECTO VISUAL: Cambiar la etiqueta para avisar que ya se copió
+        let etiqueta = document.getElementById("etiquetaExcel");
+        etiqueta.innerText = "¡✅ Copiado al portapapeles!";
+        etiqueta.style.color = "#319795"; // Cambia el texto a color verde cian
+        
+        // 4. Regresar la etiqueta a su estado original después de 2 segundos (2000 milisegundos)
+        setTimeout(function() {
+            etiqueta.innerText = "Línea para Google Sheets (Haz clic abajo para copiar):";
+            etiqueta.style.color = "#4a5568"; // Regresa al color gris original
+        }, 2000);
+        
+    }).catch(err => {
+        console.error("No se pudo copiar automáticamente: ", err);
+    });
+});
+
 
 // === 2. ESCUCHAR EL BOTÓN LIMPIAR (UBICADO AL FINAL) ===
 document.getElementById("btnLimpiar").addEventListener("click", function() {

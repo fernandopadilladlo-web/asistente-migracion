@@ -104,7 +104,19 @@
                 <label>Historial Completo de Conversación:</label>
                 <textarea id="resultadoHistorial" rows="10" readonly></textarea>
             </div>
-            
+
+            <div class="resultado-bloque">
+    <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
+    <!-- Usamos un input de solo lectura para copiarlo con un clic -->
+    <input type="text" id="resultadoFilaExcel" readonly style="width: 100%; background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace;">
+</div>
+<div class="resultado-bloque">
+    <!-- Le ponemos un ID a la etiqueta para poder cambiar su texto con JavaScript -->
+    <label id="etiquetaExcel">Línea para Google Sheets (Haz clic abajo para copiar):</label>
+    <input type="text" id="resultadoFilaExcel" readonly style="width: 100%; background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace; cursor: pointer;">
+</div>
+
+
             <!-- BOTÓN LIMPIAR: Posicionado estratégicamente al final de todo el sistema -->
             <div class="botones-container" style="margin-top: 25px;">
                 <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
