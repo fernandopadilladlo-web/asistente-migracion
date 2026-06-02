@@ -92,26 +92,38 @@
     
     <!-- 1. BLOQUE TAG -->
     <div class="resultado-bloque">
-        <label id="etiquetaTag">Tag de Cita (Haz clic abajo para copiar):</label>
-        <div id="resultadoTag" class="caja-texto" style="cursor: pointer;"></div>
+        <label>Tag de Cita:</label>
+        <div class="fila-copiado">
+            <div id="resultadoTag" class="caja-texto"></div>
+            <button type="button" id="btnCopiarTag" class="btn-copiar-corto">Copiar Tag</button>
+        </div>
+        <span id="alertaTag" class="mensaje-exito"></span>
     </div>
 
     <!-- 2. BLOQUE SMS -->
     <div class="resultado-bloque">
-        <label id="etiquetaSms">Mensaje SMS de Confirmación (Haz clic abajo para copiar):</label>
-        <div id="resultadoSms" class="caja-texto" style="cursor: pointer;"></div>
+        <label>Mensaje SMS de Confirmación:</label>
+        <div class="fila-copiado">
+            <div id="resultadoSms" class="caja-texto"></div>
+            <button type="button" id="btnCopiarSms" class="btn-copiar-corto">Copiar SMS</button>
+        </div>
+        <span id="alertaSms" class="mensaje-exito"></span>
     </div>
 
     <!-- 3. BLOQUE HISTORIAL -->
     <div class="resultado-bloque">
         <label>Historial Completo de Conversación:</label>
-        <textarea id="resultadoHistorial" rows="10" readonly></textarea>
+        <textarea id="resultadoHistorial" rows="8" readonly></textarea>
     </div>
 
-    <!-- 4. BLOQUE ÚNICO EXCEL -->
+    <!-- 4. BLOQUE ÚNICO EXCEL (Se eliminó el duplicado en blanco) -->
     <div class="resultado-bloque">
-        <label id="etiquetaExcel">Línea para Google Sheets (Haz clic abajo para copiar):</label>
-        <input type="text" id="resultadoFilaExcel" readonly style="width: 100%; background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace; cursor: pointer;">
+        <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
+        <div class="fila-copiado">
+            <input type="text" id="resultadoFilaExcel" readonly style="background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace;">
+            <button type="button" id="btnCopiarExcel" class="btn-copiar-corto" style="background-color: #319795;">Copiar Línea</button>
+        </div>
+        <span id="alertaExcel" class="mensaje-exito"></span>
     </div>
     
     <!-- Botón Limpiar al final de todo -->
@@ -119,6 +131,8 @@
         <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
     </div>
 </div>
+
+
 
 
 

@@ -157,3 +157,41 @@ textarea {
         flex-direction: column; /* Alinea los botones uno debajo del otro */
     }
 }
+
+/* Alineación de los campos con sus botones cortos */
+.fila-copiado {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.fila-copiado .caja-texto, .fila-copiado input {
+    flex: 1; /* Hace que el texto use todo el espacio disponible */
+    margin: 0;
+}
+
+.btn-copiar-corto {
+    padding: 10px 15px;
+    font-size: 13px;
+    background-color: #4a5568;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    max-width: 120px;
+    height: 42px;
+}
+
+.btn-copiar-corto:hover {
+    background-color: #2d3748;
+}
+
+/* Pequeño texto de aviso que aparece abajo del botón */
+.mensaje-exito {
+    font-size: 12px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+

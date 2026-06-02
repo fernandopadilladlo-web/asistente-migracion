@@ -8,7 +8,6 @@ const direccionesOficinas = {
 // === 1. PROCESAR E INYECTAR TEXTOS ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     
-    // Captura obligatoria y opcional cuidando que existan los elementos
     let nombreCompleto = document.getElementById("nombre").value.trim();
     let telefono = document.getElementById("telefono").value.trim();
     let oficinaSeleccionada = document.getElementById("oficina").value;
@@ -21,7 +20,6 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let fechaEntrada = document.getElementById("fechaEntrada") ? document.getElementById("fechaEntrada").value : "";
     let estadoCivil = document.getElementById("estadoCivil") ? document.getElementById("estadoCivil").value : "";
 
-    // Validaciones estrictas de campos requeridos
     if (!nombreCompleto || !telefono || !oficinaSeleccionada || !hora || !fechaCita) {
         alert("❌ Error: Los campos Nombre, Teléfono, Oficina, Fecha y Hora de la cita son obligatorios.");
         return;
@@ -33,23 +31,32 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         return;
     }
 
-    // Formatear la hora a 12 Horas (AM/PM)
+    // CORRECCIÓN MATEMÁTICA DE LA HORA (Limpia formatos extraños de ceros y comas)
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
-        let hrs = parseInt(partesHora[0]);
-        let mins = partesHora[1];
+        let hrs = parseInt(partesHora[0], 10);
+        let mins = parseInt(partesHora[1], 10);
         let ampm = hrs >= 12 ? "PM" : "AM";
+        
         hrs = hrs % 12;
-        hrs = hrs ? hrs : 12; 
-        horaFormateada = hrs + ":" + mins + " " + ampm;
+        hrs = hrs ? hrs : 12; // Si da 0, cambia a 12
+        
+        // Si los minutos son 0, se muestra directo como "10 AM". Si lleva minutos, como "10:15 AM"
+        if (mins === 0) {
+            horaFormateada = hrs + " " + ampm;
+        } else {
+            // Agrega un cero a la izquierda si el minuto es menor a 10 (ej: 10:05)
+            let minsLimpios = mins < 10 ? "0" + mins : mins;
+            horaFormateada = hrs + ":" + minsLimpios + " " + ampm;
+        }
     }
 
     let primerNombre = nombreCompleto.split(" ")[0] || "Cliente";
     let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
     let textoDeportaciones = document.getElementById("deportaciones").checked ? "SI" : "NO";
 
-    // Construcción de los tres bloques de texto
+    // Construcción de textos
     let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
     
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy Fernando Padilla confirmando tu cita del ${fechaCita} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
@@ -68,41 +75,39 @@ ${tagCita}
 
 Cita Confirmada: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCita} a las ${horaFormateada}.`;
 
-    // Armado de la fila de Excel usando tabulaciones (\t)
     let filaExcelFormateada = `${fechaCita}\t${horaFormateada}\tNUEVO\t\t${telefono}\t${oficinaSeleccionada}\tFERNANDO PADILLA\t${ticketId}\t${zohoUrl}`;
 
-    // Inyectar todo en la interfaz gráfica
+    // Inyectar en interfaz
     document.getElementById("resultadoTag").innerText = tagCita;
     document.getElementById("resultadoSms").innerText = mensajeSms;
     document.getElementById("resultadoHistorial").value = historialCompleto;
-    document.getElementById("resultadoFilaExcel").value = filaExcelFormateada; // Inyección de la caja verde
+    document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
 });
 
-// === 2. SISTEMA DE COPIADO AUTOMÁTICO TRIPLE ===
-function configurarCopiadoRapido(idElemento, idEtiqueta, textoOriginal) {
-    document.getElementById(idElemento).addEventListener("click", function() {
-        // En los <div> usamos .innerText, en los <input> usamos .value
-        let textoACopiar = this.value || this.innerText;
+// === 2. SISTEMA DE COPIADO ASOCIADO A LOS NUEVOS BOTONES ===
+function activarBotonCopiado(idBotón, idElementoTexto, idSpanAlerta) {
+    document.getElementById(idBotón).addEventListener("click", function() {
+        let elemento = document.getElementById(idElementoTexto);
+        let textoACopiar = elemento.value || elemento.innerText;
         
         if (!textoACopiar) return;
 
         navigator.clipboard.writeText(textoACopiar).then(() => {
-            let etiqueta = document.getElementById(idEtiqueta);
-            etiqueta.innerText = "¡✅ Texto copiado al portapapeles!";
-            etiqueta.style.color = "#319795";
+            let alerta = document.getElementById(idSpanAlerta);
+            alerta.innerText = "¡✅ Copiado exitosamente al portapapeles!";
+            alerta.style.color = "#2f855a";
             
             setTimeout(function() {
-                etiqueta.innerText = textoOriginal;
-                etiqueta.style.color = "#4a5568";
+                alerta.innerText = "";
             }, 2000);
         });
     });
 }
 
-// Activamos el copiado automático para los tres campos asignando sus etiquetas correspondientes
-configurarCopiadoRapido("resultadoTag", "etiquetaTag", "Tag de Cita (Haz clic abajo para copiar):");
-configurarCopiadoRapido("resultadoSms", "etiquetaSms", "Mensaje SMS de Confirmación (Haz clic abajo para copiar):");
-configurarCopiadoRapido("resultadoFilaExcel", "etiquetaExcel", "Línea para Google Sheets (Haz clic abajo para copiar):");
+// Vinculamos cada botón pequeño con su respectivo campo de texto y alerta
+activarBotonCopiado("btnCopiarTag", "resultadoTag", "alertaTag");
+activarBotonCopiado("btnCopiarSms", "resultadoSms", "alertaSms");
+activarBotonCopiado("btnCopiarExcel", "resultadoFilaExcel", "alertaExcel");
 
 // === 3. BOTÓN LIMPIAR ===
 document.getElementById("btnLimpiar").addEventListener("click", function() {
