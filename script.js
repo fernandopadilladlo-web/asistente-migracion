@@ -5,15 +5,16 @@ const direccionesOficinas = {
     "Lynwood": "1011 Long Beach Blvd, Lynwood, CA"
 };
 
-// === 1. PROCESAR E INYECTAR TEXTOS ===
+// === 1. PROCESAR MENSALES CON ANIMACIÓN ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
+    let boton = this;
     
+    // Captura de datos
     let nombreCompleto = document.getElementById("nombre").value.trim();
     let telefono = document.getElementById("telefono").value.trim();
     let oficinaSeleccionada = document.getElementById("oficina").value;
     let hora = document.getElementById("horaCita").value;
     let fechaCita = document.getElementById("fechaCita").value;
-    
     let ticketId = document.getElementById("ticketId") ? document.getElementById("ticketId").value.trim() : "";
     let zohoUrl = document.getElementById("zohoUrl") ? document.getElementById("zohoUrl").value.trim() : "";
     let fechaNacimiento = document.getElementById("fechaNacimiento") ? document.getElementById("fechaNacimiento").value : "";
@@ -31,60 +32,51 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         return;
     }
 
-    // CORRECCIÓN MATEMÁTICA DE LA HORA (Limpia formatos extraños de ceros y comas)
+    // EFECTO VISUAL: Activar animación de carga en el botón
+    boton.disabled = true; // Evita que le den doble clic por error
+    boton.innerHTML = `<span class="icono-carga"></span> Procesando Mensajes...`;
+
+    // Procesamiento matemático de la hora
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
-        let hrs = parseInt(partesHora[0], 10);
-        let mins = parseInt(partesHora[1], 10);
+        let hrs = parseInt(partesHora, 10);
+        let mins = parseInt(partesHora, 10);
         let ampm = hrs >= 12 ? "PM" : "AM";
-        
         hrs = hrs % 12;
-        hrs = hrs ? hrs : 12; // Si da 0, cambia a 12
-        
-        // Si los minutos son 0, se muestra directo como "10 AM". Si lleva minutos, como "10:15 AM"
+        hrs = hrs ? hrs : 12;
         if (mins === 0) {
             horaFormateada = hrs + " " + ampm;
         } else {
-            // Agrega un cero a la izquierda si el minuto es menor a 10 (ej: 10:05)
             let minsLimpios = mins < 10 ? "0" + mins : mins;
             horaFormateada = hrs + ":" + minsLimpios + " " + ampm;
         }
     }
 
-    let primerNombre = nombreCompleto.split(" ")[0] || "Cliente";
+    let primerNombre = nombreCompleto.split(" ") || "Cliente";
     let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
     let textoDeportaciones = document.getElementById("deportaciones").checked ? "SI" : "NO";
 
-    // Construcción de textos
     let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
-    
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy Fernando Padilla confirmando tu cita del ${fechaCita} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
-
-    let historialCompleto = `HISTORIAL DE CONVERSACIÓN DE LA LLAMADA
-----------------------------------------
-NAME: ${nombreCompleto.toUpperCase()}
-CELPHONE: ${telefono}
-DATE OF BIRTH: ${fechaNacimiento}
-ESTADO CIVIL: ${estadoCivil.toUpperCase()}
-ENTRADAS: ${fechaEntrada}
-DETENCIONES O DEPORTACIONES: ${textoDeportaciones}
-PRÓXIMAS CORTES: NO
-
-${tagCita}
-
-Cita Confirmada: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCita} a las ${horaFormateada}.`;
-
+    let historialCompleto = `HISTORIAL DE CONVERSACIÓN DE LA LLAMADA\n----------------------------------------\nNAME: ${nombreCompleto.toUpperCase()}\nCELPHONE: ${telefono}\nDATE OF BIRTH: ${fechaNacimiento}\nESTADO CIVIL: ${estadoCivil.toUpperCase()}\nENTRADAS: ${fechaEntrada}\nDETENCIONES O DEPORTACIONES: ${textoDeportaciones}\nPRÓXIMAS CORTES: NO\n\n${tagCita}\n\nCita Confirmada: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCita} a las ${horaFormateada}.`;
     let filaExcelFormateada = `${fechaCita}\t${horaFormateada}\tNUEVO\t\t${telefono}\t${oficinaSeleccionada}\tFERNANDO PADILLA\t${ticketId}\t${zohoUrl}`;
 
-    // Inyectar en interfaz
-    document.getElementById("resultadoTag").innerText = tagCita;
-    document.getElementById("resultadoSms").innerText = mensajeSms;
-    document.getElementById("resultadoHistorial").value = historialCompleto;
-    document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
+    // setTimeout simula el tiempo de procesamiento (500 milisegundos = medio segundo)
+    setTimeout(function() {
+        // Inyectar en interfaz
+        document.getElementById("resultadoTag").innerText = tagCita;
+        document.getElementById("resultadoSms").innerText = mensajeSms;
+        document.getElementById("resultadoHistorial").value = historialCompleto;
+        document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
+
+        // Restaurar el botón original
+        boton.disabled = false;
+        boton.innerHTML = "Procesar Mensajes Automáticos";
+    }, 500);
 });
 
-// === 2. SISTEMA DE COPIADO ASOCIADO A LOS NUEVOS BOTONES ===
+// === 2. SISTEMA DE COPIADO ASOCIADO A LOS BOTONES ===
 function activarBotonCopiado(idBotón, idElementoTexto, idSpanAlerta) {
     document.getElementById(idBotón).addEventListener("click", function() {
         let elemento = document.getElementById(idElementoTexto);
@@ -104,14 +96,10 @@ function activarBotonCopiado(idBotón, idElementoTexto, idSpanAlerta) {
     });
 }
 
-// Vinculamos cada botón pequeño con su respectivo campo de texto y alerta
 activarBotonCopiado("btnCopiarTag", "resultadoTag", "alertaTag");
 activarBotonCopiado("btnCopiarSms", "resultadoSms", "alertaSms");
 activarBotonCopiado("btnCopiarExcel", "resultadoFilaExcel", "alertaExcel");
-
-// NUEVA LÍNEA: Vincula el botón de las notas de la llamada
-activarBotonCopiado("btnCopiarHistorial", "resultadoHistorial", "alertaHistorial");
-
+activarBotonCopiado("btnCopiarHistorial", "resultadoHistorial", "alertaHistorial"); // Activación Notas
 
 // === 3. BOTÓN LIMPIAR ===
 document.getElementById("btnLimpiar").addEventListener("click", function() {

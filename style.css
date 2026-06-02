@@ -195,3 +195,20 @@ textarea {
     transition: all 0.3s;
 }
 
+/* Spinner Circular Animado */
+.icono-carga {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: girar 0.8s linear infinite;
+    margin-right: 8px; /* Separa el círculo del texto */
+    vertical-align: middle;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+

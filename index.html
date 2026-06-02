@@ -82,61 +82,62 @@
 
             <!-- BOTÓN PROCESAR: Se queda aquí arriba para activarse al terminar de escribir -->
             <div class="botones-container">
-                <button type="button" id="btnProcesar" class="btn-primary">Procesar e Inyectar Datos</button>
+                <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
             </div>
         </form>
 
-        <!-- Bloques de Resultados Visuales -->
+          <!-- Contenedor de Resultados Visuales -->
         <div class="contenedor-resultados">
-    <h2>Resultados Listos para Copiar</h2>
-    
-    <!-- 1. BLOQUE TAG -->
-    <div class="resultado-bloque">
-        <label>Tag de Cita:</label>
-        <div class="fila-copiado">
-            <div id="resultadoTag" class="caja-texto"></div>
-            <button type="button" id="btnCopiarTag" class="btn-copiar-corto">Copiar Tag</button>
-        </div>
-        <span id="alertaTag" class="mensaje-exito"></span>
-    </div>
+            <h2>Resultados Listos para Copiar</h2>
+            
+            <!-- 1. BLOQUE TAG -->
+            <div class="resultado-bloque">
+                <label>Tag de Cita:</label>
+                <div class="fila-copiado">
+                    <div id="resultadoTag" class="caja-texto"></div>
+                    <button type="button" id="btnCopiarTag" class="btn-copiar-corto">Copiar Tag</button>
+                </div>
+                <span id="alertaTag" class="mensaje-exito"></span>
+            </div>
 
-    <!-- 2. BLOQUE SMS -->
-    <div class="resultado-bloque">
-        <label>Mensaje SMS de Confirmación:</label>
-        <div class="fila-copiado">
-            <div id="resultadoSms" class="caja-texto"></div>
-            <button type="button" id="btnCopiarSms" class="btn-copiar-corto">Copiar SMS</button>
-        </div>
-        <span id="alertaSms" class="mensaje-exito"></span>
-    </div>
+            <!-- 2. BLOQUE SMS -->
+            <div class="resultado-bloque">
+                <label>Mensaje SMS de Confirmación:</label>
+                <div class="fila-copiado">
+                    <div id="resultadoSms" class="caja-texto"></div>
+                    <button type="button" id="btnCopiarSms" class="btn-copiar-corto">Copiar SMS</button>
+                </div>
+                <span id="alertaSms" class="mensaje-exito"></span>
+            </div>
 
-    <!-- 3. BLOQUE HISTORIAL (¡Ahora con Botón de Copiar!) -->
-    <div class="resultado-bloque">
-        <label>Historial Completo de Conversación (Notas):</label>
-        <div class="fila-copiado" style="align-items: flex-start;">
-            <textarea id="resultadoHistorial" rows="8" readonly></textarea>
-            <button type="button" id="btnCopiarHistorial" class="btn-copiar-corto">Copiar Notas</button>
-        </div>
-        <span id="alertaHistorial" class="mensaje-exito"></span>
-    </div>
+            <!-- 3. BLOQUE HISTORIAL -->
+            <div class="resultado-bloque">
+                <label>Historial Completo de Conversación (Notas):</label>
+                <div class="fila-copiado" style="align-items: flex-start;">
+                    <textarea id="resultadoHistorial" rows="8" readonly></textarea>
+                    <button type="button" id="btnCopiarHistorial" class="btn-copiar-corto">Copiar Notas</button>
+                </div>
+                <span id="alertaHistorial" class="mensaje-exito"></span>
+            </div>
 
-    <!-- 4. BLOQUE ÚNICO EXCEL -->
-    <div class="resultado-bloque">
-        <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
-        <div class="fila-copiado">
-            <input type="text" id="resultadoFilaExcel" readonly style="background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace;">
-            <button type="button" id="btnCopiarExcel" class="btn-copiar-corto" style="background-color: #319795;">Copiar Línea</button>
+            <!-- 4. BLOQUE ÚNICO EXCEL -->
+            <div class="resultado-bloque">
+                <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
+                <div class="fila-copiado">
+                    <input type="text" id="resultadoFilaExcel" readonly style="background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace;">
+                    <button type="button" id="btnCopiarExcel" class="btn-copiar-corto" style="background-color: #319795;">Copiar Línea</button>
+                </div>
+                <span id="alertaExcel" class="mensaje-exito"></span>
+            </div>
+            
+            <!-- EL ÚNICO BOTÓN LIMPIAR DEL SISTEMA -->
+            <div class="botones-container" style="margin-top: 25px;">
+                <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
+            </div>
         </div>
-        <span id="alertaExcel" class="mensaje-exito"></span>
-    </div>
-    
-    <!-- EL ÚNICO BOTÓN LIMPIAR DEL SISTEMA -->
-    <div class="botones-container" style="margin-top: 25px;">
-        <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
-    </div>
-</div>
-
+    </div> <!-- Cierre del contenedor principal -->
 
     <script src="script.js"></script>
 </body>
 </html>
+
