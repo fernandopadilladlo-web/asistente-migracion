@@ -11,7 +11,7 @@
     <div class="contenedor-principal">
         <h1>Asistente de Llamadas - Diener Law</h1>
         
-        <!-- Formulario enfocado solo en capturar los datos -->
+        <!-- FORMULARIO DE CAPTURA -->
         <form id="formularioMigracion">
             <div class="grupo-formulario">
                 <label for="nombre">Nombre del Cliente:</label>
@@ -75,22 +75,142 @@
                 <input type="time" id="horaCita" name="horaCita">
             </div>
 
-            <div class="grupo-formulario checkbox-grupo">
-                <input type="checkbox" id="deportaciones" name="deportaciones">
-                <label for="deportaciones">¿Tiene deportaciones o detenciones?</label>
+            <!-- NUEVO: CAMPO CONDICIONAL PARA JUSTIFICACIÓN DE FECHA LEJANA -->
+            <div id="bloque_justificacion_fecha" class="campo-oculto" style="grid-column: span 2; background-color: #fffaf0; border-left: 4px solid #dd6b20;">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="justificacionFecha" style="color: #dd6b20;">⚠️ Justificación: ¿Por qué no puede ir hoy, mañana o pasado mañana?</label>
+                    <input type="text" id="justificacionFecha" placeholder="Ej. Cliente se encuentra fuera del estado / Espera pago de nómina">
+                </div>
+            </div>
+	                       <!-- SECCIÓN 1: PETICIÓN DE INMIGRACIÓN -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene alguna petición de inmigración anterior?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="peticion_inmi" value="SI" id="peticion_si"> Sí</label>
+                    <label><input type="radio" name="peticion_inmi" value="NO" id="peticion_no" checked> No</label>
+                </div>
             </div>
 
-            <!-- BOTÓN PROCESAR: Se queda aquí arriba para activarse al terminar de escribir -->
+            <div id="bloque_peticion_extra" class="campo-oculto">
+                <div class="grupo-formulario">
+                    <label for="que_peticion">¿Qué petición es?</label>
+                    <input type="text" id="que_peticion" placeholder="Ej. I-130, I-485">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="fecha_peticion">Fecha en que se inició:</label>
+                    <input type="date" id="fecha_peticion">
+                </div>
+                <div class="grupo-formulario checkbox-grupo">
+                    <input type="checkbox" id="tiene_evidencia">
+                    <label for="tiene_evidencia">¿Tiene evidencia física/documentos?</label>
+                </div>
+                <div class="grupo-formulario" id="bloque_detalle_evidencia" style="display:none; margin-top:10px;">
+                    <label for="que_evidencia">¿Qué evidencia o documentos tiene?</label>
+                    <input type="text" id="que_evidencia" placeholder="Ej. Recibo de pago, cartas">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: DETENCIONES DE MIGRACIÓN -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Ha tenido detenciones de migración?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="detenciones_inmi" value="SI" id="detenciones_si"> Sí</label>
+                    <label><input type="radio" name="detenciones_inmi" value="NO" id="detenciones_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_detenciones_extra" class="campo-oculto">
+                <div class="grupo-formulario">
+                    <label for="tiempo_detencion">¿Cuánto tiempo estuvo detenido/a?</label>
+                    <input type="text" id="tiempo_detencion" placeholder="Ej. 3 días">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="fecha_detencion">Fecha aproximada de detención:</label>
+                    <input type="date" id="fecha_detencion">
+                </div>
+                <div class="grupo-formulario ancho-completo" style="margin-top:10px;">
+                    <label>¿Se le emitió una orden de deportación?</label>
+                    <div class="opciones-radio">
+                        <label><input type="radio" name="orden_dep_radio" value="SI" id="orden_dep_si"> Sí</label>
+                        <label><input type="radio" name="orden_dep_radio" value="NO" id="orden_dep_no" checked> No</label>
+                    </div>
+                </div>
+                <div class="grupo-formulario" id="bloque_fecha_deportacion" style="display:none;">
+                    <label for="fecha_deportacion_orden">Fecha de la orden de deportación:</label>
+                    <input type="date" id="fecha_deportacion_orden">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: FAMILIARES CIUDADANOS -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene familiares ciudadanos estadounidenses?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="familia_ciudadana" value="SI" id="fam_ciu_si"> Sí</label>
+                    <label><input type="radio" name="familia_ciudadana" value="NO" id="fam_ciu_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_fam_ciu_si" class="campo-oculto">
+                <label>Selecciona los familiares ciudadanos:</label>
+                <div class="checkbox-linea">
+                    <label><input type="checkbox" class="check-familiar-ciu" id="fam_ciu_hijos" value="Hijos"> Hijos</label>
+                    <label><input type="checkbox" class="check-familiar-ciu" value="Esposo/a"> Esposo/a</label>
+                    <label><input type="checkbox" class="check-familiar-ciu" value="Padres"> Padres</label>
+                    <label><input type="checkbox" class="check-familiar-ciu" value="Hermanos"> Hermanos</label>
+                </div>
+                <div id="bloque_hijos_ciu_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
+                    <div class="grupo-formulario"><label for="hijos_ciu_edad">Edad de los hijos:</label><input type="text" id="hijos_ciu_edad" placeholder="Ej. 18 años"></div>
+                    <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_ciu_ejercito"><label for="hijos_ciu_ejercito">¿Estuvieron o están en el ejército?</label></div>
+                    <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_ciu_medico"><label for="hijos_ciu_medico">¿Tienen algún problema médico o autismo?</label></div>
+                </div>
+            </div>
+
+            <div id="bloque_fam_ciu_no_comentarios" class="campo-oculto">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="comentarios_fam_ciu">Comentarios sobre familia ciudadana (ej: sobrinos, tíos, etc.):</label>
+                    <input type="text" id="comentarios_fam_ciu" placeholder="Notas sobre familiares no directos">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: FAMILIARES RESIDENTES PERMANENTES -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene familiares residentes legales permanentes?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="familia_residente" value="SI" id="fam_res_si"> Sí</label>
+                    <label><input type="radio" name="familia_residente" value="NO" id="fam_res_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_fam_res_si" class="campo-oculto">
+                <label>Selecciona los familiares residentes:</label>
+                <div class="checkbox-linea">
+                    <label><input type="checkbox" class="check-familiar-res" id="fam_res_hijos" value="Hijos"> Hijos</label>
+                    <label><input type="checkbox" class="check-familiar-res" value="Esposo/a"> Esposo/a</label>
+                    <label><input type="checkbox" class="check-familiar-res" value="Padres"> Padres</label>
+                </div>
+                <div id="bloque_hijos_res_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
+                    <div class="grupo-formulario"><label for="hijos_res_edad">Edad de los hijos:</label><input type="text" id="hijos_res_edad" placeholder="Ej. 10 años"></div>
+                    <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_res_ejercito"><label for="hijos_res_ejercito">¿Estuvieron o están en el ejército?</label></div>
+                    <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_res_medico"><label for="hijos_res_medico">¿Tienen algún problema médico o autismo?</label></div>
+                </div>
+            </div>
+
+            <div id="bloque_fam_res_no_comentarios" class="campo-oculto">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="comentarios_fam_res">Comentarios sobre familia residente (ej: sobrinos, tíos, etc.):</label>
+                    <input type="text" id="comentarios_fam_res" placeholder="Notas sobre familiares no directos">
+                </div>
+            </div>
+
             <div class="botones-container">
                 <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
             </div>
         </form>
 
-          <!-- Contenedor de Resultados Visuales -->
+        <!-- CONTENEDOR DE RESULTADOS VISUALES -->
         <div class="contenedor-resultados">
             <h2>Resultados Listos para Copiar</h2>
             
-            <!-- 1. BLOQUE TAG -->
             <div class="resultado-bloque">
                 <label>Tag de Cita:</label>
                 <div class="fila-copiado">
@@ -100,29 +220,29 @@
                 <span id="alertaTag" class="mensaje-exito"></span>
             </div>
 
-            <!-- 2. BLOQUE SMS -->
             <div class="resultado-bloque">
                 <label>Mensaje SMS de Confirmación:</label>
                 <div class="fila-copiado">
                     <div id="resultadoSms" class="caja-texto"></div>
                     <button type="button" id="btnCopiarSms" class="btn-copiar-corto">Copiar SMS</button>
                 </div>
+                <!-- NUEVO: Contador visual de caracteres abajo del SMS -->
+                <div id="contadorSmsWrapper" style="font-size:12px; font-weight:bold; margin-top:4px; color:#4a5568;">
+                    Caracteres: <span id="contadorCaracteres">0</span>/160
+                </div>
                 <span id="alertaSms" class="mensaje-exito"></span>
             </div>
 
-            <!-- 3. BLOQUE HISTORIAL -->
             <div class="resultado-bloque">
                 <label>Historial Completo de Conversación (Notas):</label>
                 <div class="fila-copiado" style="align-items: flex-start;">
                     <textarea id="resultadoHistorial" rows="8" readonly></textarea>
                     <button type="button" id="btnCopiarHistorial" class="btn-copiar-corto">Copiar Notas</button>
                 </div>
-                <span id="alertaHistorial" class="mensaje-exito"></span>
-            </div>
 
-            <!-- 4. BLOQUE ÚNICO EXCEL -->
+                      <!-- 4. BLOQUE ÚNICO EXCEL (Aquí está tu casilla vital) -->
             <div class="resultado-bloque">
-                <label>Línea para Pegar en Google Sheets (Inicia en Columna B):</label>
+                <label>Línea para Pegar en Google Sheets (Inicia en Columna A):</label>
                 <div class="fila-copiado">
                     <input type="text" id="resultadoFilaExcel" readonly style="background-color: #e6fffa; border-left: 4px solid #319795; font-family: monospace;">
                     <button type="button" id="btnCopiarExcel" class="btn-copiar-corto" style="background-color: #319795;">Copiar Línea</button>
@@ -134,10 +254,12 @@
             <div class="botones-container" style="margin-top: 25px;">
                 <button type="button" id="btnLimpiar" class="btn-danger">Limpiar Todo para Siguiente Llamada</button>
             </div>
-        </div>
-    </div> <!-- Cierre del contenedor principal -->
+        </div> <!-- Cierre del contenedor-resultados -->
+    </div> <!-- Cierre del contenedor-principal -->
 
     <script src="script.js"></script>
 </body>
 </html>
+
+
 
