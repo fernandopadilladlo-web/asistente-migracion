@@ -46,7 +46,7 @@ document.getElementById("fam_res_hijos").addEventListener("change", function() {
     document.getElementById("bloque_hijos_res_detalles").style.display = this.checked ? "block" : "none";
 });
 
-// NUEVO: Vigilantes dinámicos radiales para problemas médicos de los hijos
+// CORRECCIÓN RADIAL MÉDICA: Vigilantes para activar el campo de diagnóstico
 document.getElementById("med_ciu_si").addEventListener("change", function() {
     if(this.checked) document.getElementById("bloque_diag_ciu").style.display = "block";
 });
@@ -91,7 +91,7 @@ document.getElementById("fechaCita").addEventListener("change", function() {
     }
 });
 
-// === 2. PROCESAR MENSAJES (INICIO DE LA FUNCIÓN) ===
+// === 2. PROCESAR MENSAJES (INICIO DE LA CAPTURA) ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     let boton = this;
     
@@ -134,8 +134,8 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
-        let hrs = parseInt(partesHora[0], 10);
-        let mins = parseInt(partesHora[1], 10);
+        let hrs = parseInt(partesHora, 10);
+        let mins = parseInt(partesHora, 10);
         let ampm = hrs >= 12 ? "PM" : "AM";
         hrs = hrs % 12;
         hrs = hrs ? hrs : 12;
@@ -145,7 +145,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let fechaCitaFormateada = fechaCitaInput;
     if (fechaCitaInput) {
         let partesFecha = fechaCitaInput.split("-");
-        fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
+        fechaCitaFormateada = `${partesFecha}/${partesFecha}/${partesFecha}`;
     }
     // --- REDACCIÓN NATURAL: SECCIÓN 1: PETICIONES ---
     let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
@@ -227,11 +227,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
             notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o el estatus de orden de deportación bajo este concepto.";
         }
     }
-
-    // --- CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS ---
-    let primerNombre = nombreCompleto.split(" ") || "Cliente";
-    let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
-    
+    // --- CONSTRUCCIÓN FINAL DEL HISTORIAL FLUIDO ---
     let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy F. Padilla confirmando tu cita del ${fechaCitaFormateada} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
 
@@ -254,6 +250,7 @@ JUSTIFICACIÓN DE AGENDAMIENTO: ${justificacionFecha || "Cita programada dentro 
 
 Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCitaFormateada} a las ${horaFormateada}.`;
 
+    // Línea tabulada limpia para pegar desde la Columna A en Excel/Sheets
     let filaExcelFormateada = `${fechaLlamadaAutomatica}\t${fechaCitaFormateada}\t${horaFormateada}\tNUEVO\t\t${telefono}\t${oficinaSeleccionada}\tFERNANDO PADILLA\t${ticketId}\t${zohoUrl}`;
 
     // INYECCIÓN DE RESULTADOS A LA PANTALLA
@@ -262,7 +259,7 @@ Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la 
     document.getElementById("resultadoHistorial").value = historialCompleto;
     document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
 
-    // CONTADOR DE CARACTERES EN TIEMPO REAL
+    // CONTADOR DE CARACTERES EN TIEMPO REAL PARA EL SMS SHORT
     let totalCaracteres = mensajeSms.length;
     let contenedorContador = document.getElementById("contadorCaracteres");
     contenedorContador.innerText = totalCaracteres;
@@ -304,7 +301,7 @@ activarBotonCopiado("btnCopiarHistorial", "resultadoHistorial", "alertaHistorial
 document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("formularioMigracion").reset();
     
-    // Ocultar todas las secciones condicionales de golpe
+    // Ocultar todas las secciones condicionales de golpe al resetear
     document.getElementById("bloque_justificacion_fecha").style.display = "none";
     document.getElementById("bloque_peticion_extra").style.display = "none";
     document.getElementById("bloque_detalle_evidencia").style.display = "none";
@@ -331,4 +328,6 @@ document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("contadorCaracteres").innerText = "0";
     document.getElementById("contadorCaracteres").style.color = "#4a5568";
     alert("Formulario limpio y apartados ocultados con éxito.");
-}); // <-- Este cierre es el fin de todo el archivo
+});
+
+
