@@ -84,12 +84,207 @@
             <div class="botones-container">
                 <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
             </div>
+<!-- NUEVO: CAMPO CONDICIONAL PARA JUSTIFICACIÓN DE FECHA LEJANA -->
+<div id="bloque_justificacion_fecha" class="campo-oculto" style="grid-column: span 2; background-color: #fffaf0; border-left: 4px solid #dd6b20; padding: 15px; display: none; margin-bottom: 10px;">
+    <div class="grupo-formulario ancho-completo">
+        <label for="justificacionFecha" style="color: #dd6b20; font-weight: bold;">⚠️ Justificación: ¿Por qué no puede ir hoy, mañana o pasado mañana?</label>
+        <input type="text" id="justificacionFecha" placeholder="Ej. Cliente espera pago de nómina / Fuera del estado">
+    </div>
+</div>
+            <!-- SECCIÓN 1: PETICIÓN DE INMIGRACIÓN -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene alguna petición de inmigración anterior?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="peticion_inmi" value="SI" id="peticion_si"> Sí</label>
+                    <label><input type="radio" name="peticion_inmi" value="NO" id="peticion_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_peticion_extra" class="campo-oculto">
+                <div class="grupo-formulario">
+                    <label for="que_peticion">¿Qué petición es?</label>
+                    <input type="text" id="que_peticion" placeholder="Ej. I-130, I-485">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="fecha_peticion">Fecha en que se inició:</label>
+                    <input type="date" id="fecha_peticion">
+                </div>
+                <div class="grupo-formulario checkbox-grupo">
+                    <input type="checkbox" id="tiene_evidencia">
+                    <label for="tiene_evidencia">¿Tiene evidencia física/documentos?</label>
+                </div>
+                <div class="grupo-formulario" id="bloque_detalle_evidencia" style="display:none; margin-top:10px;">
+                    <label for="que_evidencia">¿Qué evidencia o documentos tiene?</label>
+                    <input type="text" id="que_evidencia" placeholder="Ej. Recibo de pago, cartas">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: DETENCIONES DE MIGRACIÓN -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Ha tenido detenciones de migración?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="detenciones_inmi" value="SI" id="detenciones_si"> Sí</label>
+                    <label><input type="radio" name="detenciones_inmi" value="NO" id="detenciones_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_detenciones_extra" class="campo-oculto">
+                <div class="grupo-formulario">
+                    <label for="tiempo_detencion">¿Cuánto tiempo estuvo detenido/a?</label>
+                    <input type="text" id="tiempo_detencion" placeholder="Ej. 3 días">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="fecha_detencion">Fecha aproximada de detención:</label>
+                    <input type="date" id="fecha_detencion">
+                </div>
+                <div class="grupo-formulario ancho-completo" style="margin-top:10px;">
+                    <label>¿Se le emitió una orden de deportación?</label>
+                    <div class="opciones-radio">
+                        <label><input type="radio" name="orden_dep_radio" value="SI" id="orden_dep_si"> Sí</label>
+                        <label><input type="radio" name="orden_dep_radio" value="NO" id="orden_dep_no" checked> No</label>
+                    </div>
+                </div>
+                <div class="grupo-formulario" id="bloque_fecha_deportacion" style="display:none;">
+                    <label for="fecha_deportacion_orden">Fecha de la orden de deportación:</label>
+                    <input type="date" id="fecha_deportacion_orden">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: FAMILIARES CIUDADANOS -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene familiares ciudadanos estadounidenses?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="familia_ciudadana" value="SI" id="fam_ciu_si"> Sí</label>
+                    <label><input type="radio" name="familia_ciudadana" value="NO" id="fam_ciu_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_fam_ciu_si" class="campo-oculto">
+                <label>Selecciona los familiares ciudadanos:</label>
+                <div class="checkbox-linea">
+                    <label><input type="checkbox" class="check-familiar-ciu" id="fam_ciu_hijos" value="Hijos"> Hijos</label>
+                    <label><input type="checkbox" class="check-familiar-ciu" value="Esposo/a"> Esposo/a</label>
+                    <label><input type="checkbox" class="check-familiar-ciu" value="Padres"> Padres</label>
+                    <label><input type="checkbox" class="check-familiar-ciu" value="Hermanos"> Hermanos</label>
+                </div>
+                <div id="bloque_hijos_ciu_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
+                    <div class="grupo-formulario"><label for="hijos_ciu_edad">Edad de los hijos:</label><input type="text" id="hijos_ciu_edad" placeholder="Ej. 18 años"></div>
+                    <div class="grupo-formulario checkbox-grupo" style="margin-top:10px;">
+                        <label>¿Tienen algún problema médico o espectro autista?</label>
+                        <div class="opciones-radio">
+                            <label><input type="radio" name="medico_hijos_ciu" value="SI" id="med_ciu_si"> Sí</label>
+                            <label><input type="radio" name="medico_hijos_ciu" value="NO" id="med_ciu_no" checked> No</label>
+                        </div>
+                    </div>
+                    <div id="bloque_diag_ciu" style="display:none; margin-top:5px;" class="grupo-formulario ancho-completo">
+                        <label for="diagnostico_ciu">Detalle del diagnóstico médico:</label>
+                        <input type="text" id="diagnostico_ciu" placeholder="Ej. Autismo severo">
+                    </div>
+                </div>
+            </div>
+
+            <div id="bloque_fam_ciu_no_comentarios" class="campo-oculto">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="comentarios_fam_ciu">Comentarios sobre familia ciudadana (ej: sobrinos, tíos, etc.):</label>
+                    <input type="text" id="comentarios_fam_ciu" placeholder="Notas sobre familiares no directos">
+                </div>
+            </div>
+            <!-- SECCIÓN 4: FAMILIARES RESIDENTES PERMANENTES -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene familiares residentes legales permanentes?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="familia_residente" value="SI" id="fam_res_si"> Sí</label>
+                    <label><input type="radio" name="familia_residente" value="NO" id="fam_res_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_fam_res_si" class="campo-oculto">
+                <label>Selecciona los familiares residentes:</label>
+                <div class="checkbox-linea">
+                    <label><input type="checkbox" class="check-familiar-res" id="fam_res_hijos" value="Hijos"> Hijos</label>
+                    <label><input type="checkbox" class="check-familiar-res" value="Esposo/a"> Esposo/a</label>
+                    <label><input type="checkbox" class="check-familiar-res" value="Padres"> Padres</label>
+                </div>
+                <div id="bloque_hijos_res_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
+                    <div class="grupo-formulario"><label for="hijos_res_edad">Edad de los hijos:</label><input type="text" id="hijos_res_edad" placeholder="Ej. 10 años"></div>
+                    <div class="grupo-formulario checkbox-grupo" style="margin-top:10px;">
+                        <label>¿Tienen algún problema médico o espectro autista?</label>
+                        <div class="opciones-radio">
+                            <label><input type="radio" name="medico_hijos_res" value="SI" id="med_res_si"> Sí</label>
+                            <label><input type="radio" name="medico_hijos_res" value="NO" id="med_res_no" checked> No</label>
+                        </div>
+                    </div>
+                    <div id="bloque_diag_res" style="display:none; margin-top:5px;" class="grupo-formulario ancho-completo">
+                        <label for="diagnostico_res">Detalle del diagnóstico médico:</label>
+                        <input type="text" id="diagnostico_res" placeholder="Ej. Diabetes tipo 1">
+                    </div>
+                </div>
+            </div>
+
+            <div id="bloque_fam_res_no_comentarios" class="campo-oculto">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="comentarios_fam_res">Comentarios sobre familia residente (ej: sobrinos, tíos, etc.):</label>
+                    <input type="text" id="comentarios_fam_res" placeholder="Notas sobre familiares no directos">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 5: CORTES DE MIGRACIÓN -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene próximas cortes de migración?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="cortes_inmi" value="SI" id="cortes_si"> Sí</label>
+                    <label><input type="radio" name="cortes_inmi" value="NO" id="cortes_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_cortes_si" class="campo-oculto">
+                <div class="grupo-formulario">
+                    <label for="fecha_corte_proxima">Fecha de la próxima corte:</label>
+                    <input type="date" id="fecha_corte_proxima">
+                </div>
+                <div class="grupo-formulario ancho-completo" style="margin-top: 10px;">
+                    <label for="comentarios_corte_si">Comentarios / Notas de la próxima corte:</label>
+                    <input type="text" id="comentarios_corte_si" placeholder="Ej. Corte master">
+                </div>
+            </div>
+
+            <div id="bloque_cortes_no" class="campo-oculto">
+                <div class="grupo-formulario ancho-completo">
+                    <label>¿Ha perdido alguna corte de migración anteriormente?</label>
+                    <div class="opciones-radio">
+                        <label><input type="radio" name="perdido_corte" value="SI" id="perdido_si"> Sí</label>
+                        <label><input type="radio" name="perdido_corte" value="NO" id="perdido_no" checked> No</label>
+                    </div>
+                </div>
+                <div id="bloque_fecha_perdido" style="display:none; margin-top:10px;" class="grupo-formulario">
+                    <label for="fecha_corte_perdida">Fecha aproximada de la corte perdida:</label>
+                    <input type="date" id="fecha_corte_perdida">
+                </div>
+                <div class="grupo-formulario ancho-completo" style="margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+                    <label>¿Ha revisado si se le abrió una orden de deportación por no asistir?</label>
+                    <div class="opciones-radio">
+                        <label><input type="radio" name="revisado_deportacion" value="SI" id="rev_dep_si"> Sí</label>
+                        <label><input type="radio" name="revisado_deportacion" value="NO" id="rev_dep_no" checked> No</label>
+                    </div>
+                </div>
+                <div id="bloque_fecha_orden_corte" style="display:none; margin-top:10px;">
+                    <div class="grupo-formulario">
+                        <label for="fecha_orden_corte_input">Fecha de la orden de deportación por corte:</label>
+                        <input type="date" id="fecha_orden_corte_input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTONES DE PROCESAMIENTO -->
+            <div class="botones-container">
+                <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
+            </div>
         </form>
-        <!-- CONTENEDOR DE RESULTADOS VISUALES ESTABLE -->
+
+        <!-- CONTENEDOR DE RESULTADOS VISUALES -->
         <div class="contenedor-resultados">
             <h2>Resultados Listos para Copiar</h2>
             
-            <!-- 1. BLOQUE TAG -->
             <div class="resultado-bloque">
                 <label>Tag de Cita:</label>
                 <div class="fila-copiado">
@@ -99,17 +294,19 @@
                 <span id="alertaTag" class="mensaje-exito"></span>
             </div>
 
-            <!-- 2. BLOQUE SMS -->
             <div class="resultado-bloque">
                 <label>Mensaje SMS de Confirmación:</label>
                 <div class="fila-copiado">
                     <div id="resultadoSms" class="caja-texto"></div>
                     <button type="button" id="btnCopiarSms" class="btn-copiar-corto">Copiar SMS</button>
                 </div>
+                <!-- Contador visual de caracteres -->
+                <div id="contadorSmsWrapper" style="font-size:12px; font-weight:bold; margin-top:4px; color:#4a5568;">
+                    Caracteres: <span id="contadorCaracteres">0</span>/160
+                </div>
                 <span id="alertaSms" class="mensaje-exito"></span>
             </div>
 
-            <!-- 3. BLOQUE HISTORIAL (NOTAS) -->
             <div class="resultado-bloque">
                 <label>Historial Completo de Conversación (Notas):</label>
                 <div class="fila-copiado" style="align-items: flex-start;">
@@ -119,7 +316,6 @@
                 <span id="alertaHistorial" class="mensaje-exito"></span>
             </div>
 
-            <!-- 4. BLOQUE ÚNICO EXCEL -->
             <div class="resultado-bloque">
                 <label>Línea para Pegar en Google Sheets (Inicia en Columna A):</label>
                 <div class="fila-copiado">
