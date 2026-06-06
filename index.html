@@ -161,9 +161,20 @@
                 <div id="bloque_hijos_ciu_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
                     <div class="grupo-formulario"><label for="hijos_ciu_edad">Edad de los hijos:</label><input type="text" id="hijos_ciu_edad" placeholder="Ej. 18 años"></div>
                     <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_ciu_ejercito"><label for="hijos_ciu_ejercito">¿Estuvieron o están en el ejército?</label></div>
-                    <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_ciu_medico"><label for="hijos_ciu_medico">¿Tienen algún problema médico o autismo?</label></div>
-                </div>
-            </div>
+                    <!-- Reemplazo del checkbox médico en Hijos Ciudadanos -->
+<div class="grupo-formulario ancho-completo" style="margin-top:10px;">
+    <label>¿Tienen algún problema médico o espectro autista?</label>
+    <div class="opciones-radio">
+        <label><input type="radio" name="medico_hijos_ciu" value="SI" id="med_ciu_si"> Sí</label>
+        <label><input type="radio" name="medico_hijos_ciu" value="NO" id="med_ciu_no" checked> No</label>
+    </div>
+</div>
+<!-- Bloque oculto para el diagnóstico médico de hijos ciudadanos -->
+<div id="bloque_diag_ciu" style="display:none; margin-top:5px;" class="grupo-formulario ancho-completo">
+    <label for="diagnostico_ciu">Detalle del diagnóstico médico:</label>
+    <input type="text" id="diagnostico_ciu" placeholder="Ej. Autismo severo, requiere terapia constante">
+</div>
+
 
             <div id="bloque_fam_ciu_no_comentarios" class="campo-oculto">
                 <div class="grupo-formulario ancho-completo">
@@ -191,9 +202,20 @@
                 <div id="bloque_hijos_res_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
                     <div class="grupo-formulario"><label for="hijos_res_edad">Edad de los hijos:</label><input type="text" id="hijos_res_edad" placeholder="Ej. 10 años"></div>
                     <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_res_ejercito"><label for="hijos_res_ejercito">¿Estuvieron o están en el ejército?</label></div>
-                    <div class="grupo-formulario checkbox-grupo"><input type="checkbox" id="hijos_res_medico"><label for="hijos_res_medico">¿Tienen algún problema médico o autismo?</label></div>
-                </div>
-            </div>
+                    <!-- Reemplazo del checkbox médico en Hijos Residentes -->
+<div class="grupo-formulario ancho-completo" style="margin-top:10px;">
+    <label>¿Tienen algún problema médico o espectro autista?</label>
+    <div class="opciones-radio">
+        <label><input type="radio" name="medico_hijos_res" value="SI" id="med_res_si"> Sí</label>
+        <label><input type="radio" name="medico_hijos_res" value="NO" id="med_res_no" checked> No</label>
+    </div>
+</div>
+<!-- Bloque oculto para el diagnóstico médico de hijos residentes -->
+<div id="bloque_diag_res" style="display:none; margin-top:5px;" class="grupo-formulario ancho-completo">
+    <label for="diagnostico_res">Detalle del diagnóstico médico:</label>
+    <input type="text" id="diagnostico_res" placeholder="Ej. Diabetes tipo 1, dependiente de insulina">
+</div>
+
 
             <div id="bloque_fam_res_no_comentarios" class="campo-oculto">
                 <div class="grupo-formulario ancho-completo">
@@ -202,9 +224,66 @@
                 </div>
             </div>
 
+<!-- SECCIÓN 5: CORTES DE MIGRACIÓN (Estructura Corregida) -->
+<div class="grupo-formulario ancho-completo">
+    <label>¿Tiene próximas cortes de migración?</label>
+    <div class="opciones-radio">
+        <label><input type="radio" name="cortes_inmi" value="SI" id="cortes_si"> Sí</label>
+        <label><input type="radio" name="cortes_inmi" value="NO" id="cortes_no" checked> No</label>
+    </div>
+</div>
+
+<!-- ESCENARIO A: SÍ tiene próximas cortes -->
+<div id="bloque_cortes_si" class="campo-oculto">
+    <div class="grupo-formulario">
+        <label for="fecha_corte_proxima">Fecha de la próxima corte:</label>
+        <input type="date" id="fecha_corte_proxima">
+    </div>
+    <div class="grupo-formulario ancho-completo" style="margin-top: 10px;">
+        <label for="comentarios_corte_si">Comentarios / Notas de la próxima corte:</label>
+        <input type="text" id="comentarios_corte_si" placeholder="Ej. Corte master con el juez Smith">
+    </div>
+</div>
+
+<!-- ESCENARIO B: NO tiene próximas cortes -->
+<div id="bloque_cortes_no" class="campo-oculto">
+    <div class="grupo-formulario ancho-completo">
+        <label>¿Ha perdido alguna corte de migración anteriormente?</label>
+        <div class="opciones-radio">
+            <label><input type="radio" name="perdido_corte" value="SI" id="perdido_si"> Sí</label>
+            <label><input type="radio" name="perdido_corte" value="NO" id="perdido_no" checked> No</label>
+        </div>
+    </div>
+    
+    <!-- Sub-pregunta si SÍ ha perdido alguna corte -->
+    <div id="bloque_fecha_perdido" style="display:none; margin-top:10px;" class="grupo-formulario">
+        <label for="fecha_corte_perdida">Fecha aproximada de la corte perdida:</label>
+        <input type="date" id="fecha_corte_perdida">
+    </div>
+
+    <div class="grupo-formulario ancho-completo" style="margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+        <label>¿Ha revisado si se le abrió una orden de deportación por no asistir?</label>
+        <div class="opciones-radio">
+            <label><input type="radio" name="revisado_deportacion" value="SI" id="rev_dep_si"> Sí</label>
+            <label><input type="radio" name="revisado_deportacion" value="NO" id="rev_dep_no" checked> No</label>
+        </div>
+    </div>
+
+    <!-- Sub-pregunta si SÍ conoce la fecha de esa orden de deportación -->
+    <div id="bloque_fecha_orden_corte" style="display:none; margin-top:10px;">
+        <div class="grupo-formulario">
+            <label for="fecha_orden_corte_input">Fecha de la orden de deportación por corte:</label>
+            <input type="date" id="fecha_orden_corte_input">
+        </div>
+    </div>
+</div>
+
             <div class="botones-container">
                 <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
             </div>
+
+
+
         </form>
 
         <!-- CONTENEDOR DE RESULTADOS VISUALES -->
