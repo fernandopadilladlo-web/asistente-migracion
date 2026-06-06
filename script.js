@@ -46,7 +46,7 @@ document.getElementById("fam_res_hijos").addEventListener("change", function() {
     document.getElementById("bloque_hijos_res_detalles").style.display = this.checked ? "block" : "none";
 });
 
-// CORRECCIÓN RADIAL MÉDICA: Vigilantes para activar el campo de diagnóstico
+// Vigilantes dinámicos radiales para problemas médicos de los hijos
 document.getElementById("med_ciu_si").addEventListener("change", function() {
     if(this.checked) document.getElementById("bloque_diag_ciu").style.display = "block";
 });
@@ -91,7 +91,7 @@ document.getElementById("fechaCita").addEventListener("change", function() {
     }
 });
 
-// === 2. PROCESAR MENSAJES (INICIO DE LA CAPTURA) ===
+// === 2. PROCESAR MENSAJES (INICIO DE LA FUNCIÓN) ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     let boton = this;
     
@@ -131,21 +131,23 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let ahoraMismo = new Date();
     let fechaLlamadaAutomatica = `${String(ahoraMismo.getDate()).padStart(2, '0')}/${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
 
+    // CORRECCIÓN MATEMÁTICA CON ÍNDICES: Formateo correcto de la hora
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
-        let hrs = parseInt(partesHora, 10);
-        let mins = parseInt(partesHora, 10);
+        let hrs = parseInt(partesHora[0], 10);
+        let mins = parseInt(partesHora[1], 10);
         let ampm = hrs >= 12 ? "PM" : "AM";
         hrs = hrs % 12;
         hrs = hrs ? hrs : 12;
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
+    // CORRECCIÓN CON ÍNDICES EXACTOS: Evita que la página falle al cargar
     let fechaCitaFormateada = fechaCitaInput;
     if (fechaCitaInput) {
         let partesFecha = fechaCitaInput.split("-");
-        fechaCitaFormateada = `${partesFecha}/${partesFecha}/${partesFecha}`;
+        fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
     }
     // --- REDACCIÓN NATURAL: SECCIÓN 1: PETICIONES ---
     let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
@@ -221,7 +223,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         
         if (haPerdidoCorte || haRevisadoDeportacion) {
             let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente alrededor del ${document.getElementById("fecha_corte_perdida").value || "sin fecha exacta"}. ` : "No reporta cortes perdidas en el pasado. ";
-            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada el ${document.getElementById("fecha_orden_corte_input").value || "sin fecha"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación por ausencia.";
+            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada el ${document.getElementById("fecha_orden_corte_input").value || "sin fecha"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación por absence.";
             notaCortes = `No tiene próximas cortes. ${detallePerdido}${detalleOrden}`;
         } else {
             notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o el estatus de orden de deportación bajo este concepto.";
@@ -259,7 +261,7 @@ Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la 
     document.getElementById("resultadoHistorial").value = historialCompleto;
     document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
 
-    // CONTADOR DE CARACTERES EN TIEMPO REAL PARA EL SMS SHORT
+    // CONTADOR DE CARACTERES EN TIEMPO REAL
     let totalCaracteres = mensajeSms.length;
     let contenedorContador = document.getElementById("contadorCaracteres");
     contenedorContador.innerText = totalCaracteres;
@@ -329,5 +331,3 @@ document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("contadorCaracteres").style.color = "#4a5568";
     alert("Formulario limpio y apartados ocultados con éxito.");
 });
-
-
