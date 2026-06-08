@@ -11,7 +11,7 @@
     <div class="contenedor-principal">
         <h1>Asistente de Llamadas - Diener Law</h1>
         
-        <!-- FORMULARIO DE CAPTURA ESTABLE -->
+        <!-- FORMULARIO DE CAPTURA COMPLETO -->
         <form id="formularioMigracion">
             <div class="grupo-formulario">
                 <label for="nombre">Nombre del Cliente:</label>
@@ -75,22 +75,13 @@
                 <input type="time" id="horaCita" name="horaCita">
             </div>
 
-            <div class="grupo-formulario checkbox-grupo ancho-completo">
-                <input type="checkbox" id="deportaciones" name="deportaciones">
-                <label for="deportaciones">¿Tiene deportaciones o detenciones?</label>
+            <!-- CAMPO CONDICIONAL PARA JUSTIFICACIÓN DE FECHA LEJANA -->
+            <div id="bloque_justificacion_fecha" class="campo-oculto" style="grid-column: span 2; background-color: #fffaf0; border-left: 4px solid #dd6b20; padding: 15px; display: none; margin-bottom: 10px;">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="justificacionFecha" style="color: #dd6b20; font-weight: bold;">⚠️ Justificación: ¿Por qué no puede ir hoy, mañana o pasado mañana?</label>
+                    <input type="text" id="justificacionFecha" placeholder="Ej. Cliente espera pago de nómina">
+                </div>
             </div>
-
-            <!-- BOTÓN PROCESAR ESTABLE -->
-            <div class="botones-container">
-                <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
-            </div>
-<!-- NUEVO: CAMPO CONDICIONAL PARA JUSTIFICACIÓN DE FECHA LEJANA -->
-<div id="bloque_justificacion_fecha" class="campo-oculto" style="grid-column: span 2; background-color: #fffaf0; border-left: 4px solid #dd6b20; padding: 15px; display: none; margin-bottom: 10px;">
-    <div class="grupo-formulario ancho-completo">
-        <label for="justificacionFecha" style="color: #dd6b20; font-weight: bold;">⚠️ Justificación: ¿Por qué no puede ir hoy, mañana o pasado mañana?</label>
-        <input type="text" id="justificacionFecha" placeholder="Ej. Cliente espera pago de nómina / Fuera del estado">
-    </div>
-</div>
             <!-- SECCIÓN 1: PETICIÓN DE INMIGRACIÓN -->
             <div class="grupo-formulario ancho-completo">
                 <label>¿Tiene alguna petición de inmigración anterior?</label>
@@ -189,6 +180,61 @@
                     <input type="text" id="comentarios_fam_ciu" placeholder="Notas sobre familiares no directos">
                 </div>
             </div>
+
+            <!-- SECCIÓN 4: FAMILIARES RESIDENTES PERMANENTES -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene familiares residentes legales permanentes?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="familia_residente" value="SI" id="fam_res_si"> Sí</label>
+                    <label><input type="radio" name="familia_residente" value="NO" id="fam_res_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_fam_res_si" class="campo-oculto">
+                <label>Selecciona los familiares residentes:</label>
+                <div class="checkbox-linea">
+                    <label><input type="checkbox" class="check-familiar-res" id="fam_res_hijos" value="Hijos"> Hijos</label>
+                    <label><input type="checkbox" class="check-familiar-res" value="Esposo/a"> Esposo/a</label>
+                    <label><input type="checkbox" class="check-familiar-res" value="Padres"> Padres</label>
+                </div>
+                <div id="bloque_hijos_res_detalles" style="display:none; margin-top:15px; background:#fff; padding:10px; border-radius:4px; border: 1px solid #cbd5e1;">
+                    <div class="grupo-formulario"><label for="hijos_res_edad">Edad de los hijos:</label><input type="text" id="hijos_res_edad" placeholder="Ej. 10 años"></div>
+                    <div class="grupo-formulario checkbox-grupo" style="margin-top:10px;">
+                        <label>¿Tienen algún problema médico o espectro autista?</label>
+                        <div class="opciones-radio">
+                            <label><input type="radio" name="medico_hijos_res" value="SI" id="med_res_si"> Sí</label>
+                            <label><input type="radio" name="medico_hijos_res" value="NO" id="med_res_no" checked> No</label>
+                        </div>
+                    </div>
+                    <div id="bloque_diag_res" style="display:none; margin-top:5px;" class="grupo-formulario ancho-completo">
+                        <label for="diagnostico_res">Detalle del diagnóstico médico:</label>
+                        <input type="text" id="diagnostico_res" placeholder="Ej. Diabetes tipo 1">
+                    </div>
+                </div>
+            </div>
+
+            <div id="bloque_fam_res_no_comentarios" class="campo-oculto">
+                <div class="grupo-formulario ancho-completo">
+                    <label for="comentarios_fam_res">Comentarios sobre familia residente (ej: sobrinos, tíos, etc.):</label>
+                    <input type="text" id="comentarios_fam_res" placeholder="Notas sobre familiares no directos">
+                </div>
+            </div>
+
+            <!-- SECCIÓN 5: CORTES DE MIGRACIÓN -->
+            <div class="grupo-formulario ancho-completo">
+                <label>¿Tiene próximas cortes de migración?</label>
+                <div class="opciones-radio">
+                    <label><input type="radio" name="cortes_inmi" value="SI" id="cortes_si"> Sí</label>
+                    <label><input type="radio" name="cortes_inmi" value="NO" id="cortes_no" checked> No</label>
+                </div>
+            </div>
+
+            <div id="bloque_cortes_si" class="campo-oculto">
+                <div class="grupo-formulario">
+                    <label for="fecha_corte_proxima">Fecha de la próxima corte:</label>
+                    <input type="date" id="fecha_corte_proxima">
+                </div>
+                <div class="grupo-formulario ancho-completo" style="margin-top: 10px;">
             <!-- SECCIÓN 4: FAMILIARES RESIDENTES PERMANENTES -->
             <div class="grupo-formulario ancho-completo">
                 <label>¿Tiene familiares residentes legales permanentes?</label>
@@ -275,7 +321,7 @@
                 </div>
             </div>
 
-            <!-- BOTONES DE PROCESAMIENTO -->
+            <!-- BOTÓN PROCESAR PRINCIPAL -->
             <div class="botones-container">
                 <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
             </div>
@@ -300,7 +346,6 @@
                     <div id="resultadoSms" class="caja-texto"></div>
                     <button type="button" id="btnCopiarSms" class="btn-copiar-corto">Copiar SMS</button>
                 </div>
-                <!-- Contador visual de caracteres -->
                 <div id="contadorSmsWrapper" style="font-size:12px; font-weight:bold; margin-top:4px; color:#4a5568;">
                     Caracteres: <span id="contadorCaracteres">0</span>/160
                 </div>
@@ -335,3 +380,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
