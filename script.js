@@ -323,7 +323,9 @@ if (fechaCitaInput && fechaCitaInput.includes("-")) {
         
         if (haPerdidoCorte || haRevisadoDeportacion) {
             let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente debido a: ${document.getElementById("comentarios_perdido_nota").value || "razón no especificada"}. ` : "No reporta cortes perdidas en el pasado. ";
-            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada bajo el concepto: ${document.getElementById("fecha_orden_corte_input").value || "sin detalles registrados"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación.";
+            // CORRECCIÓN DE LECTURA: Lee la caja de comentarios de deportación como texto fluido
+            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación bajo el concepto: ${document.getElementById("fecha_orden_corte_input").value.trim() || "detalles no especificados"}. ` : "No tiene conocimiento de que se le haya abierto una orden de deportación por ausencia.";
+
             notaCortes = `No tiene próximas cortes. ${detallePerdido}${detalleOrden}`;
         } else {
             notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o estatus de orden de deportación bajo este concepto.";
