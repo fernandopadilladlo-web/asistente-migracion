@@ -1,4 +1,4 @@
-// === DICCIONARIO DE OFICINAS ===
+// === DICCIONARIO DE OFICINAS ESTABLE ===
 const direccionesOficinas = {
     "Phoenix": "123 North Central Ave, Phoenix, AZ",
     "Fontana": "456 Sierra Ave, Fontana, CA",
@@ -6,95 +6,177 @@ const direccionesOficinas = {
     "Lynwood": "1011 Long Beach Blvd, Lynwood, CA"
 };
 
-// === 1. CONTROLADORES MÁGICOS DE PANTALLA ===
-function controlarBloqueDinamico(idRadioSi, idRadioNo, idBloqueExtra, idBloqueOpcionalNo) {
-    document.getElementById(idRadioSi).addEventListener("change", function() {
-        if (this.checked) {
-            document.getElementById(idBloqueExtra).style.display = "block";
-            if (idBloqueOpcionalNo) document.getElementById(idBloqueOpcionalNo).style.display = "none";
-        }
-    });
-    document.getElementById(idRadioNo).addEventListener("change", function() {
-        if (this.checked) {
-            document.getElementById(idBloqueExtra).style.display = "none";
-            if (idBloqueOpcionalNo) document.getElementById(idBloqueOpcionalNo).style.display = "block";
-        }
-    });
+// === 1. CONTROLADORES VISUALES DIRECTOS (APERTURA INSTANTÁNEA) ===
+
+// Sección 1: Peticiones Anterior
+function mostrarPeticionExtra() {
+    document.getElementById("bloque_peticion_extra").style.display = "block";
+}
+function ocultarPeticionExtra() {
+    document.getElementById("bloque_peticion_extra").style.display = "none";
+    document.getElementById("que_peticion").value = "";
+    document.getElementById("fecha_peticion").value = "";
+    document.getElementById("tiene_evidencia").checked = false;
+    document.getElementById("bloque_detalle_evidencia").style.display = "none";
+    document.getElementById("que_evidencia").value = "";
+}
+function alternarEvidenciaDetalle() {
+    let checkbox = document.getElementById("tiene_evidencia");
+    document.getElementById("bloque_detalle_evidencia").style.display = checkbox.checked ? "block" : "none";
+    if (!checkbox.checked) document.getElementById("que_evidencia").value = "";
 }
 
-// Inicializar vigilantes principales de los Radios
-controlarBloqueDinamico("peticion_si", "peticion_no", "bloque_peticion_extra", null);
-controlarBloqueDinamico("detenciones_si", "detenciones_no", "bloque_detenciones_extra", null);
-controlarBloqueDinamico("fam_ciu_si", "fam_ciu_no", "bloque_fam_ciu_si", "bloque_fam_ciu_no_comentarios");
-controlarBloqueDinamico("fam_res_si", "fam_res_no", "bloque_fam_res_si", "bloque_fam_res_no_comentarios");
-controlarBloqueDinamico("cortes_si", "cortes_no", "bloque_cortes_si", "bloque_cortes_no");
+// Sección 2: Detenciones
+function mostrarDetencionesExtra() {
+    document.getElementById("bloque_detenciones_extra").style.display = "block";
+}
+function ocultarDetencionesExtra() {
+    document.getElementById("bloque_detenciones_extra").style.display = "none";
+    document.getElementById("tiempo_detencion").value = "";
+    document.getElementById("fecha_detencion").value = "";
+    document.getElementById("orden_dep_no").checked = true;
+    document.getElementById("bloque_fecha_deportacion").style.display = "none";
+    document.getElementById("fecha_deportacion_orden").value = "";
+}
+function mostrarFechaDeportacionExtra() {
+    document.getElementById("bloque_fecha_deportacion").style.display = "block";
+}
+function ocultarFechaDeportacionExtra() {
+    document.getElementById("bloque_fecha_deportacion").style.display = "none";
+    document.getElementById("fecha_deportacion_orden").value = "";
+}
 
-// Vigilantes secundarios internos (Evidencia, Cortes e Hijos)
-document.getElementById("tiene_evidencia").addEventListener("change", function() {
-    document.getElementById("bloque_detalle_evidencia").style.display = this.checked ? "block" : "none";
-});
-document.getElementById("orden_dep_si").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_fecha_deportacion").style.display = "block";
-});
-document.getElementById("orden_dep_no").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_fecha_deportacion").style.display = "none";
-});
-document.getElementById("fam_ciu_hijos").addEventListener("change", function() {
-    document.getElementById("bloque_hijos_ciu_detalles").style.display = this.checked ? "block" : "none";
-});
-document.getElementById("fam_res_hijos").addEventListener("change", function() {
-    document.getElementById("bloque_hijos_res_detalles").style.display = this.checked ? "block" : "none";
-});
-
-// CORRECCIÓN RADIAL MÉDICA: Vigilantes para activar el campo de diagnóstico de hijos
-document.getElementById("med_ciu_si").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_diag_ciu").style.display = "block";
-});
-document.getElementById("med_ciu_no").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_diag_ciu").style.display = "none";
-});
-document.getElementById("med_res_si").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_diag_res").style.display = "block";
-});
-document.getElementById("med_res_no").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_diag_res").style.display = "none";
-});
-
-// Vigilantes secundarios internos de las cortes perdidas y órdenes
-document.getElementById("perdido_si").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_fecha_perdido").style.display = "block";
-});
-document.getElementById("perdido_no").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_fecha_perdido").style.display = "none";
-});
-document.getElementById("rev_dep_si").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_fecha_orden_corte").style.display = "block";
-});
-document.getElementById("rev_dep_no").addEventListener("change", function() {
-    if(this.checked) document.getElementById("bloque_fecha_orden_corte").style.display = "none";
-});
-
-// Vigilante matemático de la fecha de la cita (Lógica de 3 días)
-document.getElementById("fechaCita").addEventListener("change", function() {
-    let fechaElegidaString = this.value;
-    if (!fechaElegidaString) return;
-    let fechaActual = new Date();
-    fechaActual.setHours(0,0,0,0);
-    let fechaCita = new Date(fechaElegidaString + "T00:00:00");
-    let diferenciaDias = Math.floor((fechaCita - fechaActual) / (1000 * 60 * 60 * 24));
-    let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
-    if (diferenciaDias > 3) {
-        bloqueJustificacion.style.display = "block";
-    } else {
-        bloqueJustificacion.style.display = "none";
-        document.getElementById("justificacionFecha").value = "";
+// Sección 3: Familiares Ciudadanos
+function mostrarFamiliaCiuExtra() {
+    document.getElementById("bloque_fam_ciu_si").style.display = "block";
+    document.getElementById("bloque_fam_ciu_no_comentarios").style.display = "none";
+    document.getElementById("comentarios_fam_ciu").value = "";
+}
+function ocultarFamiliaCiuExtra() {
+    document.getElementById("bloque_fam_ciu_si").style.display = "none";
+    document.getElementById("bloque_fam_ciu_no_comentarios").style.display = "block";
+    document.getElementById("fam_ciu_hijos").checked = false;
+    document.getElementById("bloque_hijos_ciu_detalles").style.display = "none";
+    document.getElementById("hijos_ciu_edad").value = "";
+    document.getElementById("hijos_ciu_ejercito").checked = false;
+    document.getElementById("med_ciu_no").checked = true;
+    document.getElementById("bloque_diag_ciu").style.display = "none";
+    document.getElementById("diagnostico_ciu").value = "";
+    let checks = document.querySelectorAll(".check-familiar-ciu");
+    checks.forEach(cb => cb.checked = false);
+}
+function alternarHijosCiuDetalles() {
+    let checkHijos = document.getElementById("fam_ciu_hijos");
+    document.getElementById("bloque_hijos_ciu_detalles").style.display = checkHijos.checked ? "block" : "none";
+    if (!checkHijos.checked) {
+        document.getElementById("hijos_ciu_edad").value = "";
+        document.getElementById("hijos_ciu_ejercito").checked = false;
+        document.getElementById("med_ciu_no").checked = true;
+        document.getElementById("bloque_diag_ciu").style.display = "none";
+        document.getElementById("diagnostico_ciu").value = "";
     }
-});
+}
+function mostrarDiagCiuExtra() {
+    document.getElementById("bloque_diag_ciu").style.display = "block";
+}
+function ocultarDiagCiuExtra() {
+    document.getElementById("bloque_diag_ciu").style.display = "none";
+    document.getElementById("diagnostico_ciu").value = "";
+}
 
-// === 2. PROCESAR MENSAJES (INICIO DE LA FUNCIÓN) ===
+// Sección 4: Familiares Residentes
+function mostrarFamiliaResExtra() {
+    document.getElementById("bloque_fam_res_si").style.display = "block";
+    document.getElementById("bloque_fam_res_no_comentarios").style.display = "none";
+    document.getElementById("comentarios_fam_res").value = "";
+}
+function ocultarFamiliaResExtra() {
+    document.getElementById("bloque_fam_res_si").style.display = "none";
+    document.getElementById("bloque_fam_res_no_comentarios").style.display = "block";
+    document.getElementById("fam_res_hijos").checked = false;
+    document.getElementById("bloque_hijos_res_detalles").style.display = "none";
+    document.getElementById("hijos_res_edad").value = "";
+    document.getElementById("hijos_res_ejercito").checked = false;
+    document.getElementById("med_res_no").checked = true;
+    document.getElementById("bloque_diag_res").style.display = "none";
+    document.getElementById("diagnostico_res").value = "";
+    let checks = document.querySelectorAll(".check-familiar-res");
+    checks.forEach(cb => cb.checked = false);
+}
+function alternarHijosResDetalles() {
+    let checkHijos = document.getElementById("fam_res_hijos");
+    document.getElementById("bloque_hijos_res_detalles").style.display = checkHijos.checked ? "block" : "none";
+    if (!checkHijos.checked) {
+        document.getElementById("hijos_res_edad").value = "";
+        document.getElementById("hijos_res_ejercito").checked = false;
+        document.getElementById("med_res_no").checked = true;
+        document.getElementById("bloque_diag_res").style.display = "none";
+        document.getElementById("diagnostico_res").value = "";
+    }
+}
+function mostrarDiagResExtra() {
+    document.getElementById("bloque_diag_res").style.display = "block";
+}
+function ocultarDiagResExtra() {
+    document.getElementById("bloque_diag_res").style.display = "none";
+    document.getElementById("diagnostico_res").value = "";
+}
+
+// Sección 5: Cortes de Migración
+function mostrarCortesExtra() {
+    document.getElementById("bloque_cortes_si").style.display = "block";
+    document.getElementById("bloque_cortes_no").style.display = "none";
+    document.getElementById("fecha_corte_proxima").value = "";
+    document.getElementById("comentarios_corte_si").value = "";
+}
+function ocultarCortesExtra() {
+    document.getElementById("bloque_cortes_si").style.display = "none";
+    document.getElementById("bloque_cortes_no").style.display = "block";
+    document.getElementById("perdido_no").checked = true;
+    document.getElementById("bloque_fecha_perdido").style.display = "none";
+    document.getElementById("fecha_corte_perdida").value = "";
+    document.getElementById("rev_dep_no").checked = true;
+    document.getElementById("bloque_fecha_orden_corte").style.display = "none";
+    document.getElementById("fecha_orden_corte_input").value = "";
+}
+function mostrarFechaPerdidoExtra() {
+    document.getElementById("bloque_fecha_perdido").style.display = "block";
+}
+function ocultarFechaPerdidoExtra() {
+    document.getElementById("bloque_fecha_perdido").style.display = "none";
+    document.getElementById("fecha_corte_perdida").value = "";
+}
+function mostrarFechaOrdenCorteExtra() {
+    document.getElementById("bloque_fecha_orden_corte").style.display = "block";
+}
+function ocultarFechaOrdenCorteExtra() {
+    document.getElementById("bloque_fecha_orden_corte").style.display = "none";
+    document.getElementById("fecha_orden_corte_input").value = "";
+}
+
+// === CONSTANTE ADICIONAL: VIGILANTE MATEMÁTICO DE FECHAS (3 DÍAS) ===
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("fechaCita").addEventListener("change", function() {
+        let fechaElegidaString = this.value;
+        if (!fechaElegidaString) return;
+        let fechaActual = new Date();
+        fechaActual.setHours(0,0,0,0);
+        let fechaCita = new Date(fechaElegidaString + "T00:00:00");
+        let diferenciaDias = Math.floor((fechaCita - fechaActual) / (1000 * 60 * 60 * 24));
+        let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
+        if (diferenciaDias > 3) {
+            bloqueJustificacion.style.display = "block";
+        } else {
+            bloqueJustificacion.style.display = "none";
+            document.getElementById("justificacionFecha").value = "";
+        }
+    });
+});
+// === 2. PROCESAR MENSAJES AUTOMÁTICOS (MOTOR DE CÁLCULO PRINCIPAL) ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     let boton = this;
     
+    // Captura de datos básicos del HTML
     let nombreCompleto = document.getElementById("nombre").value.trim();
     let telefono = document.getElementById("telefono").value.trim();
     let oficinaSeleccionada = document.getElementById("oficina").value;
@@ -108,17 +190,20 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let estadoCivil = document.getElementById("estadoCivil").value;
     let justificacionFecha = document.getElementById("justificacionFecha").value.trim();
 
+    // Validar campos obligatorios
     if (!nombreCompleto || !telefono || !oficinaSeleccionada || !hora || !fechaCitaInput) {
         alert("❌ Error: Los campos Nombre, Teléfono, Oficina, Fecha y Hora de la cita son obligatorios.");
         return;
     }
 
+    // Validar justificación condicional si el bloque de 3 días está abierto
     let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
     if (bloqueJustificacion.style.display === "block" && !justificacionFecha) {
         alert("❌ Error: Al programar una cita a más de 3 días de distancia, debes escribir la Justificación.");
         return;
     }
 
+    // Filtrar símbolos o números en el nombre
     let filtroLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     if (!filtroLetras.test(nombreCompleto)) {
         alert("❌ Error: El nombre solo puede contener letras y espacios.");
@@ -128,27 +213,32 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     boton.disabled = true;
     boton.innerHTML = `<span class="icono-carga"></span> Procesando Mensajes...`;
 
+    // Calcular fecha del día automática para Google Sheets
     let ahoraMismo = new Date();
     let fechaLlamadaAutomatica = `${String(ahoraMismo.getDate()).padStart(2, '0')}/${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
 
+    // Limpiar y formatear hora a 12 Horas (AM/PM)
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
-        let hrs = parseInt(partesHora, 10);
-        let mins = parseInt(partesHora, 10);
+        let hrs = parseInt(partesHora[0], 10);
+        let mins = parseInt(partesHora[1], 10);
         let ampm = hrs >= 12 ? "PM" : "AM";
         hrs = hrs % 12;
         hrs = hrs ? hrs : 12;
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
+    // Formatear fecha de la cita
     let fechaCitaFormateada = fechaCitaInput;
     if (fechaCitaInput) {
         let partesFecha = fechaCitaInput.split("-");
-        // CORRECCIÓN FINAL DE ÍNDICES: Formatea la fecha de la cita de forma perfecta para Excel
         fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
     }
-    // --- REDACCIÓN NATURAL: SECCIÓN 1: PETICIONES ---
+
+    // --- ALGORITMO DE REDACCIÓN NATURAL Y HUMANA PARA NOTAS ---
+    
+    // 1. Redacción de Peticiones
     let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
     if (document.getElementById("peticion_si").checked) {
         let quePet = document.getElementById("que_peticion").value || "no especificada";
@@ -158,7 +248,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         notaPeticion = `Previamente se inició una petición de inmigración tipo ${quePet} en la fecha ${fechaPet}, ${detalleEv}.`;
     }
 
-    // --- REDACCIÓN NATURAL: SECCIÓN 2: DETENCIONES ---
+    // 2. Redacción de Detenciones
     let notaDetenciones = "No reporta detenciones por parte de las autoridades de migración.";
     if (document.getElementById("detenciones_si").checked) {
         let tiempoDet = document.getElementById("tiempo_detencion").value || "no especificado";
@@ -168,7 +258,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         notaDetenciones = `El cliente fue detenido por migración aproximadamente el ${fechaDet} por un lapso de ${tiempoDet}${detalleOrden}.`;
     }
 
-    // --- REDACCIÓN NATURAL: SECCIÓN 3: FAMILIA CIUDADANA ---
+    // 3. Redacción de Familia Ciudadana
     let notaFamiliaCiu = "No menciona tener familiares directos con ciudadanía estadounidense.";
     if (document.getElementById("fam_ciu_si").checked) {
         let seleccionadosCiu = [];
@@ -189,7 +279,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         if (comentarioCiu) notaFamiliaCiu = `No tiene familiares ciudadanos directos, pero menciona parientes lejanos: ${comentarioCiu}.`;
     }
 
-    // --- REDACCIÓN NATURAL: SECCIÓN 4: FAMILIA RESIDENTE ---
+    // 4. Redacción de Familia Residente
     let notaFamiliaRes = "No menciona tener familiares directos con residencia legal permanente.";
     if (document.getElementById("fam_res_si").checked) {
         let seleccionadosRes = [];
@@ -210,7 +300,7 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         if (comentarioRes) notaFamiliaRes = `No tiene familiares residentes directos, pero comenta lo siguiente: ${comentarioRes}.`;
     }
 
-    // --- REDACCIÓN NATURAL: SECCIÓN 5: CORTES DE MIGRACIÓN ---
+    // 5. Redacción de Cortes de Migración
     let notaCortes = "Actualmente no tiene próximas cortes de migración programadas.";
     if (document.getElementById("cortes_si").checked) {
         let fechaCorteProxima = document.getElementById("fecha_corte_proxima").value || "sin fecha";
@@ -228,11 +318,16 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
             notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o el estatus de orden de deportación bajo este concepto.";
         }
     }
-
     // --- CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS ---
+    let primerNombre = nombreCompleto.split(" ")[0] || "Cliente";
+    let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
+    
     let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
+    
+    // OPTIMIZACIÓN SMS: Firma corta (F. Padilla) para cuidar el límite estricto
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy F. Padilla confirmando tu cita del ${fechaCitaFormateada} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
 
+    // PLANTILLA HISTORIAL: Reporte fluido redactado de forma humana (Sin el Tag adentro)
     let historialCompleto = `HISTORIAL DE CONVERSACIÓN DE LA LLAMADA
 ----------------------------------------
 CLIENTE: ${nombreCompleto.toUpperCase()}
@@ -252,6 +347,7 @@ JUSTIFICACIÓN DE AGENDAMIENTO: ${justificacionFecha || "Cita programada dentro 
 
 Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCitaFormateada} a las ${horaFormateada}.`;
 
+    // Línea tabulada limpia para pegar desde la Columna A en Excel/Sheets
     let filaExcelFormateada = `${fechaLlamadaAutomatica}\t${fechaCitaFormateada}\t${horaFormateada}\tNUEVO\t\t${telefono}\t${oficinaSeleccionada}\tFERNANDO PADILLA\t${ticketId}\t${zohoUrl}`;
 
     // INYECCIÓN DE RESULTADOS A LA PANTALLA
@@ -298,10 +394,35 @@ activarBotonCopiado("btnCopiarSms", "resultadoSms", "alertaSms");
 activarBotonCopiado("btnCopiarExcel", "resultadoFilaExcel", "alertaExcel");
 activarBotonCopiado("btnCopiarHistorial", "resultadoHistorial", "alertaHistorial");
 
-// === 4. BOTÓN LIMPIAR TODO ===
+// === 4. BOTÓN LIMPIAR TODO (RESET COMPLETO DE CORTINAS) ===
 document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("formularioMigracion").reset();
     
-    // Ocultar todas las secciones condicionales al resetear
+    // Ocultar absolutamente todas las secciones condicionales al resetear
     document.getElementById("bloque_justificacion_fecha").style.display = "none";
-document.getElementById("bloque_peticion_extra").style.display = "none";document.getElementById("bloque_detalle_evidencia").style.display = "none";document.getElementById("bloque_detenciones_extra").style.display = "none";document.getElementById("bloque_fecha_deportacion").style.display = "none";document.getElementById("bloque_fam_ciu_si").style.display = "none";document.getElementById("bloque_hijos_ciu_detalles").style.display = "none";document.getElementById("bloque_diag_ciu").style.display = "none";document.getElementById("bloque_fam_ciu_no_comentarios").style.display = "none";document.getElementById("bloque_fam_res_si").style.display = "none";document.getElementById("bloque_hijos_res_detalles").style.display = "none";document.getElementById("bloque_diag_res").style.display = "none";document.getElementById("bloque_fam_res_no_comentarios").style.display = "none";document.getElementById("bloque_cortes_si").style.display = "none";document.getElementById("bloque_cortes_no").style.display = "none";document.getElementById("bloque_fecha_perdido").style.display = "none";document.getElementById("bloque_fecha_orden_corte").style.display = "none";// Limpiar textos de resultadosdocument.getElementById("resultadoTag").innerText = "";document.getElementById("resultadoSms").innerText = "";document.getElementById("resultadoHistorial").value = "";document.getElementById("resultadoFilaExcel").value = "";document.getElementById("contadorCaracteres").innerText = "0";document.getElementById("contadorCaracteres").style.color = "#4a5568";alert("Formulario limpio y apartados ocultados con éxito.");});
+    document.getElementById("bloque_peticion_extra").style.display = "none";
+    document.getElementById("bloque_detalle_evidencia").style.display = "none";
+    document.getElementById("bloque_detenciones_extra").style.display = "none";
+    document.getElementById("bloque_fecha_deportacion").style.display = "none";
+    document.getElementById("bloque_fam_ciu_si").style.display = "none";
+    document.getElementById("bloque_hijos_ciu_detalles").style.display = "none";
+    document.getElementById("bloque_diag_ciu").style.display = "none";
+    document.getElementById("bloque_fam_ciu_no_comentarios").style.display = "none";
+    document.getElementById("bloque_fam_res_si").style.display = "none";
+    document.getElementById("bloque_hijos_res_detalles").style.display = "none";
+    document.getElementById("bloque_diag_res").style.display = "none";
+    document.getElementById("bloque_fam_res_no_comentarios").style.display = "none";
+    document.getElementById("bloque_cortes_si").style.display = "none";
+    document.getElementById("bloque_cortes_no").style.display = "none";
+    document.getElementById("bloque_fecha_perdido").style.display = "none";
+    document.getElementById("bloque_fecha_orden_corte").style.display = "none";
+
+    // Limpiar textos de resultados
+    document.getElementById("resultadoTag").innerText = "";
+    document.getElementById("resultadoSms").innerText = "";
+    document.getElementById("resultadoHistorial").value = "";
+    document.getElementById("resultadoFilaExcel").value = "";
+    document.getElementById("contadorCaracteres").innerText = "0";
+    document.getElementById("contadorCaracteres").style.color = "#4a5568";
+    alert("Formulario limpio y apartados ocultados con éxito.");
+});
