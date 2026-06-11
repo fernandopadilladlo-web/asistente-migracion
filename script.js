@@ -8,7 +8,34 @@ const direccionesOficinas = {
 
 // === 1. CONTROLADORES VISUALES DIRECTOS (APERTURA INSTANTÁNEA) ===
 
-// Sección 1: Peticiones Anterior
+// LÓGICA DIRECTA REFORMULADA: Salta unicamente al 3er día posterior a hoy
+function verificarFechaCita() {
+    let fechaElegidaString = document.getElementById("fechaCita").value;
+    if (!fechaElegidaString) return;
+
+    // Obtener la fecha de hoy limpia a la medianoche local
+    let fechaActual = new Date();
+    fechaActual.setHours(0,0,0,0);
+
+    // Obtener la fecha elegida en el calendario
+    let fechaCita = new Date(fechaElegidaString + "T00:00:00");
+
+    // Calcular la diferencia exacta en días matemáticos
+    let diferenciaMilisegundos = fechaCita - fechaActual;
+    let diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+
+    let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
+
+    // REGLA ESTRICTA: Manda la alerta únicamente si pasa de los 3 días posteriores
+    if (diferenciaDias > 3) {
+        bloqueJustificacion.style.display = "block";
+    } else {
+        bloqueJustificacion.style.display = "none";
+        document.getElementById("justificacionFecha").value = ""; // Limpiar texto si regresa al rango válido
+    }
+}
+
+// Sección 1: Peticiones Anteriores
 function mostrarPeticionExtra() {
     document.getElementById("bloque_peticion_extra").style.display = "block";
 }
@@ -45,7 +72,6 @@ function ocultarFechaDeportacionExtra() {
     document.getElementById("bloque_fecha_deportacion").style.display = "none";
     document.getElementById("fecha_deportacion_orden").value = "";
 }
-
 // Sección 3: Familiares Ciudadanos
 function mostrarFamiliaCiuExtra() {
     document.getElementById("bloque_fam_ciu_si").style.display = "block";
@@ -121,8 +147,7 @@ function ocultarDiagResExtra() {
     document.getElementById("bloque_diag_res").style.display = "none";
     document.getElementById("diagnostico_res").value = "";
 }
-
-// Sección 5: Cortes de Migración
+// Sección 5: Cortes de Migración (Sincronización Total con Clics)
 function mostrarCortesExtra() {
     document.getElementById("bloque_cortes_si").style.display = "block";
     document.getElementById("bloque_cortes_no").style.display = "none";
@@ -134,7 +159,7 @@ function ocultarCortesExtra() {
     document.getElementById("bloque_cortes_no").style.display = "block";
     document.getElementById("perdido_no").checked = true;
     document.getElementById("bloque_fecha_perdido").style.display = "none";
-    document.getElementById("fecha_corte_perdida").value = "";
+    document.getElementById("comentarios_perdido_nota").value = "";
     document.getElementById("rev_dep_no").checked = true;
     document.getElementById("bloque_fecha_orden_corte").style.display = "none";
     document.getElementById("fecha_orden_corte_input").value = "";
@@ -144,7 +169,7 @@ function mostrarFechaPerdidoExtra() {
 }
 function ocultarFechaPerdidoExtra() {
     document.getElementById("bloque_fecha_perdido").style.display = "none";
-    document.getElementById("fecha_corte_perdida").value = "";
+    document.getElementById("comentarios_perdido_nota").value = "";
 }
 function mostrarFechaOrdenCorteExtra() {
     document.getElementById("bloque_fecha_orden_corte").style.display = "block";
@@ -154,56 +179,40 @@ function ocultarFechaOrdenCorteExtra() {
     document.getElementById("fecha_orden_corte_input").value = "";
 }
 
-// === CONSTANTE ADICIONAL: VIGILANTE MATEMÁTICO DE FECHAS (3 DÍAS) ===
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("fechaCita").addEventListener("change", function() {
-        let fechaElegidaString = this.value;
-        if (!fechaElegidaString) return;
-        let fechaActual = new Date();
-        fechaActual.setHours(0,0,0,0);
-        let fechaCita = new Date(fechaElegidaString + "T00:00:00");
-        let diferenciaDias = Math.floor((fechaCita - fechaActual) / (1000 * 60 * 60 * 24));
-        let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
-        if (diferenciaDias > 3) {
-            bloqueJustificacion.style.display = "block";
-        } else {
-            bloqueJustificacion.style.display = "none";
-            document.getElementById("justificacionFecha").value = "";
-        }
-    });
-});
-// === 2. PROCESAR MENSAJES AUTOMÁTICOS (MOTOR DE CÁLCULO PRINCIPAL) ===
+// === 2. PROCESAR MENSAJES AUTOMÁTICOS (ARRANQUE Y CAPTURA CORREGIDA) ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     let boton = this;
     
-    // Captura de datos básicos del HTML
+    // Captura básica de casillas obligatorias
     let nombreCompleto = document.getElementById("nombre").value.trim();
     let telefono = document.getElementById("telefono").value.trim();
     let oficinaSeleccionada = document.getElementById("oficina").value;
     let hora = document.getElementById("horaCita").value;
     let fechaCitaInput = document.getElementById("fechaCita").value;
     
-    let ticketId = document.getElementById("ticketId").value.trim();
-    let zohoUrl = document.getElementById("zohoUrl").value.trim();
-    let fechaNacimiento = document.getElementById("fechaNacimiento").value;
-    let fechaEntrada = document.getElementById("fechaEntrada").value;
-    let estadoCivil = document.getElementById("estadoCivil").value;
-    let justificacionFecha = document.getElementById("justificacionFecha").value.trim();
+    // BLINDAJE CONTRA ERRORES: Si están vacíos, no congelan el botón
+    let ticketId = document.getElementById("ticketId") ? document.getElementById("ticketId").value.trim() : "";
+    let zohoUrl = document.getElementById("zohoUrl") ? document.getElementById("zohoUrl").value.trim() : "";
+    
+    let fechaNacimiento = document.getElementById("fechaNacimiento") ? document.getElementById("fechaNacimiento").value : "";
+    let fechaEntrada = document.getElementById("fechaEntrada") ? document.getElementById("fechaEntrada").value : "";
+    let estadoCivil = document.getElementById("estadoCivil") ? document.getElementById("estadoCivil").value : "";
+    let justificacionFecha = document.getElementById("justificacionFecha") ? document.getElementById("justificacionFecha").value.trim() : "";
 
-    // Validar campos obligatorios
+    // Bloqueo si faltan casillas requeridas
     if (!nombreCompleto || !telefono || !oficinaSeleccionada || !hora || !fechaCitaInput) {
         alert("❌ Error: Los campos Nombre, Teléfono, Oficina, Fecha y Hora de la cita son obligatorios.");
         return;
     }
 
-    // Validar justificación condicional si el bloque de 3 días está abierto
+    // Bloqueo si la justificación condicional está abierta y vacía
     let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
     if (bloqueJustificacion.style.display === "block" && !justificacionFecha) {
         alert("❌ Error: Al programar una cita a más de 3 días de distancia, debes escribir la Justificación.");
         return;
     }
 
-    // Filtrar símbolos o números en el nombre
+    // Bloqueo contra números en el nombre
     let filtroLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     if (!filtroLetras.test(nombreCompleto)) {
         alert("❌ Error: El nombre solo puede contener letras y espacios.");
@@ -213,11 +222,10 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     boton.disabled = true;
     boton.innerHTML = `<span class="icono-carga"></span> Procesando Mensajes...`;
 
-    // Calcular fecha del día automática para Google Sheets
+    // Fechas automáticas del día y formateos de reloj internos
     let ahoraMismo = new Date();
     let fechaLlamadaAutomatica = `${String(ahoraMismo.getDate()).padStart(2, '0')}/${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
 
-    // Limpiar y formatear hora a 12 Horas (AM/PM)
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
@@ -229,18 +237,17 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
-    // Formatear fecha de la cita
     let fechaCitaFormateada = fechaCitaInput;
     if (fechaCitaInput) {
         let partesFecha = fechaCitaInput.split("-");
         fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
     }
 
-    // --- ALGORITMO DE REDACCIÓN NATURAL Y HUMANA PARA NOTAS ---
-    
-    // 1. Redacción de Peticiones
+    // 1. Redacción de Peticiones Anteriores
     let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
     if (document.getElementById("peticion_si").checked) {
+    // --- ALGORITMO DE REDACCIÓN NATURAL PARA NOTAS DE ABOGADOS ---
+    
         let quePet = document.getElementById("que_peticion").value || "no especificada";
         let fechaPet = document.getElementById("fecha_peticion").value || "sin fecha";
         let tieneEv = document.getElementById("tiene_evidencia").checked;
@@ -311,23 +318,17 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         let haRevisadoDeportacion = document.getElementById("rev_dep_si").checked;
         
         if (haPerdidoCorte || haRevisadoDeportacion) {
-            let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente alrededor del ${document.getElementById("fecha_corte_perdida").value || "sin fecha exacta"}. ` : "No reporta cortes perdidas en el pasado. ";
-            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada el ${document.getElementById("fecha_orden_corte_input").value || "sin fecha"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación por ausencia.";
+            let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente debido a: ${document.getElementById("comentarios_perdido_nota").value || "razón no especificada"}. ` : "No reporta cortes perdidas en el pasado. ";
+            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada bajo el concepto: ${document.getElementById("fecha_orden_corte_input").value || "sin detalles registrados"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación.";
             notaCortes = `No tiene próximas cortes. ${detallePerdido}${detalleOrden}`;
         } else {
-            notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o el estatus de orden de deportación bajo este concepto.";
+            notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o estatus de orden de deportación bajo este concepto.";
         }
     }
     // --- CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS ---
-    let primerNombre = nombreCompleto.split(" ")[0] || "Cliente";
-    let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
-    
     let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
-    
-    // OPTIMIZACIÓN SMS: Firma corta (F. Padilla) para cuidar el límite estricto
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy F. Padilla confirmando tu cita del ${fechaCitaFormateada} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
 
-    // PLANTILLA HISTORIAL: Reporte fluido redactado de forma humana (Sin el Tag adentro)
     let historialCompleto = `HISTORIAL DE CONVERSACIÓN DE LA LLAMADA
 ----------------------------------------
 CLIENTE: ${nombreCompleto.toUpperCase()}
@@ -347,30 +348,29 @@ JUSTIFICACIÓN DE AGENDAMIENTO: ${justificacionFecha || "Cita programada dentro 
 
 Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCitaFormateada} a las ${horaFormateada}.`;
 
-    // Línea tabulada limpia para pegar desde la Columna A en Excel/Sheets
     let filaExcelFormateada = `${fechaLlamadaAutomatica}\t${fechaCitaFormateada}\t${horaFormateada}\tNUEVO\t\t${telefono}\t${oficinaSeleccionada}\tFERNANDO PADILLA\t${ticketId}\t${zohoUrl}`;
 
-    // INYECCIÓN DE RESULTADOS A LA PANTALLA
+    // INYECCIÓN INSTANTÁNEA EN CASILLAS
     document.getElementById("resultadoTag").innerText = tagCita;
     document.getElementById("resultadoSms").innerText = mensajeSms;
     document.getElementById("resultadoHistorial").value = historialCompleto;
     document.getElementById("resultadoFilaExcel").value = filaExcelFormateada;
 
-    // CONTADOR DE CARACTERES EN TIEMPO REAL
+    // CONTROL DEL CONTADOR EN TIEMPO REAL
     let totalCaracteres = mensajeSms.length;
     let contenedorContador = document.getElementById("contadorCaracteres");
     contenedorContador.innerText = totalCaracteres;
 
     if (totalCaracteres > 160) {
-        contenedorContador.style.color = "#e53e3e"; // Rojo si excede
+        contenedorContador.style.color = "#e53e3e"; // Rojo
     } else {
-        contenedorContador.style.color = "#2f855a"; // Verde a salvo
+        contenedorContador.style.color = "#2f855a"; // Verde
     }
 
     setTimeout(function() {
         boton.disabled = false;
         boton.innerHTML = "Procesar Mensajes Automáticos";
-    }, 500);
+    }, 50);
 });
 
 // === 3. MOTOR UNIVERSAL DE COPIADO ===
