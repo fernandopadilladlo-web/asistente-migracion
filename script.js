@@ -8,7 +8,7 @@ const direccionesOficinas = {
 
 // === 1. CONTROLADORES VISUALES DIRECTOS (APERTURA INSTANTÁNEA) ===
 
-// LÓGICA DIRECTA REFORMULADA: Salta unicamente al 3er día posterior a hoy
+// LÓGICA DIRECTA: Salta unicamente al 3er día posterior a hoy de forma automática
 function verificarFechaCita() {
     let fechaElegidaString = document.getElementById("fechaCita").value;
     if (!fechaElegidaString) return;
@@ -26,12 +26,12 @@ function verificarFechaCita() {
 
     let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
 
-    // REGLA ESTRICTA: Manda la alerta únicamente si pasa de los 3 días posteriores
+    // REGLA: Manda la alerta únicamente si pasa de los 3 días posteriores
     if (diferenciaDias > 3) {
         bloqueJustificacion.style.display = "block";
     } else {
         bloqueJustificacion.style.display = "none";
-        document.getElementById("justificacionFecha").value = ""; // Limpiar texto si regresa al rango válido
+        document.getElementById("justificacionFecha").value = ""; 
     }
 }
 
@@ -72,6 +72,7 @@ function ocultarFechaDeportacionExtra() {
     document.getElementById("bloque_fecha_deportacion").style.display = "none";
     document.getElementById("fecha_deportacion_orden").value = "";
 }
+
 // Sección 3: Familiares Ciudadanos
 function mostrarFamiliaCiuExtra() {
     document.getElementById("bloque_fam_ciu_si").style.display = "block";
@@ -109,13 +110,13 @@ function ocultarDiagCiuExtra() {
     document.getElementById("bloque_diag_ciu").style.display = "none";
     document.getElementById("diagnostico_ciu").value = "";
 }
-
-// Sección 4: Familiares Residentes
+// === SECCIÓN 4: CONTROLADORES DE FAMILIARES RESIDENTES ===
 function mostrarFamiliaResExtra() {
     document.getElementById("bloque_fam_res_si").style.display = "block";
     document.getElementById("bloque_fam_res_no_comentarios").style.display = "none";
     document.getElementById("comentarios_fam_res").value = "";
 }
+
 function ocultarFamiliaResExtra() {
     document.getElementById("bloque_fam_res_si").style.display = "none";
     document.getElementById("bloque_fam_res_no_comentarios").style.display = "block";
@@ -129,6 +130,7 @@ function ocultarFamiliaResExtra() {
     let checks = document.querySelectorAll(".check-familiar-res");
     checks.forEach(cb => cb.checked = false);
 }
+
 function alternarHijosResDetalles() {
     let checkHijos = document.getElementById("fam_res_hijos");
     document.getElementById("bloque_hijos_res_detalles").style.display = checkHijos.checked ? "block" : "none";
@@ -140,20 +142,24 @@ function alternarHijosResDetalles() {
         document.getElementById("diagnostico_res").value = "";
     }
 }
+
 function mostrarDiagResExtra() {
     document.getElementById("bloque_diag_res").style.display = "block";
 }
+
 function ocultarDiagResExtra() {
     document.getElementById("bloque_diag_res").style.display = "none";
     document.getElementById("diagnostico_res").value = "";
 }
-// Sección 5: Cortes de Migración (Sincronización Total con Clics)
+
+// === SECCIÓN 5: CONTROLADORES DE CORTES DE MIGRACIÓN ===
 function mostrarCortesExtra() {
     document.getElementById("bloque_cortes_si").style.display = "block";
     document.getElementById("bloque_cortes_no").style.display = "none";
     document.getElementById("fecha_corte_proxima").value = "";
     document.getElementById("comentarios_corte_si").value = "";
 }
+
 function ocultarCortesExtra() {
     document.getElementById("bloque_cortes_si").style.display = "none";
     document.getElementById("bloque_cortes_no").style.display = "block";
@@ -164,55 +170,53 @@ function ocultarCortesExtra() {
     document.getElementById("bloque_fecha_orden_corte").style.display = "none";
     document.getElementById("fecha_orden_corte_input").value = "";
 }
+
 function mostrarFechaPerdidoExtra() {
     document.getElementById("bloque_fecha_perdido").style.display = "block";
 }
+
 function ocultarFechaPerdidoExtra() {
     document.getElementById("bloque_fecha_perdido").style.display = "none";
     document.getElementById("comentarios_perdido_nota").value = "";
 }
+
 function mostrarFechaOrdenCorteExtra() {
     document.getElementById("bloque_fecha_orden_corte").style.display = "block";
 }
+
 function ocultarFechaOrdenCorteExtra() {
     document.getElementById("bloque_fecha_orden_corte").style.display = "none";
     document.getElementById("fecha_orden_corte_input").value = "";
 }
-
-// === 2. PROCESAR MENSAJES AUTOMÁTICOS (ARRANQUE Y CAPTURA CORREGIDA) ===
+// === 2. PROCESAR MENSAJES AUTOMÁTICOS (MOTOR DE CÁLCULO) ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     let boton = this;
     
-    // Captura básica de casillas obligatorias
     let nombreCompleto = document.getElementById("nombre").value.trim();
     let telefono = document.getElementById("telefono").value.trim();
     let oficinaSeleccionada = document.getElementById("oficina").value;
     let hora = document.getElementById("horaCita").value;
     let fechaCitaInput = document.getElementById("fechaCita").value;
     
-    // BLINDAJE CONTRA ERRORES: Si están vacíos, no congelan el botón
+    // Captura segura: No colapsa el sistema si dejas vacíos estos campos opcionales
     let ticketId = document.getElementById("ticketId") ? document.getElementById("ticketId").value.trim() : "";
     let zohoUrl = document.getElementById("zohoUrl") ? document.getElementById("zohoUrl").value.trim() : "";
-    
     let fechaNacimiento = document.getElementById("fechaNacimiento") ? document.getElementById("fechaNacimiento").value : "";
     let fechaEntrada = document.getElementById("fechaEntrada") ? document.getElementById("fechaEntrada").value : "";
     let estadoCivil = document.getElementById("estadoCivil") ? document.getElementById("estadoCivil").value : "";
     let justificacionFecha = document.getElementById("justificacionFecha") ? document.getElementById("justificacionFecha").value.trim() : "";
 
-    // Bloqueo si faltan casillas requeridas
     if (!nombreCompleto || !telefono || !oficinaSeleccionada || !hora || !fechaCitaInput) {
         alert("❌ Error: Los campos Nombre, Teléfono, Oficina, Fecha y Hora de la cita son obligatorios.");
         return;
     }
 
-    // Bloqueo si la justificación condicional está abierta y vacía
     let bloqueJustificacion = document.getElementById("bloque_justificacion_fecha");
     if (bloqueJustificacion.style.display === "block" && !justificacionFecha) {
         alert("❌ Error: Al programar una cita a más de 3 días de distancia, debes escribir la Justificación.");
         return;
     }
 
-    // Bloqueo contra números en el nombre
     let filtroLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     if (!filtroLetras.test(nombreCompleto)) {
         alert("❌ Error: El nombre solo puede contener letras y espacios.");
@@ -222,7 +226,6 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     boton.disabled = true;
     boton.innerHTML = `<span class="icono-carga"></span> Procesando Mensajes...`;
 
-    // Fechas automáticas del día y formateos de reloj internos
     let ahoraMismo = new Date();
     let fechaLlamadaAutomatica = `${String(ahoraMismo.getDate()).padStart(2, '0')}/${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
 
@@ -237,21 +240,18 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
-    // CORRECCIÓN DEFINITIVA: Formatea la fecha de forma segura sin congelar el botón
-let fechaCitaFormateada = fechaCitaInput;
-if (fechaCitaInput && fechaCitaInput.includes("-")) {
-    let partesFecha = fechaCitaInput.split("-");
-    fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`; // Día/Mes/Año
-} else {
-    fechaCitaFormateada = "Sin fecha";
-}
+    // CORRECCIÓN MATEMÁTICA: Formatea la fecha de forma segura con sus índices de posición exactos (0, 1, 2)
+    let fechaCitaFormateada = fechaCitaInput;
+    if (fechaCitaInput && fechaCitaInput.includes("-")) {
+        let partesFecha = fechaCitaInput.split("-");
+        fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`; 
+    } else {
+        fechaCitaFormateada = "Sin fecha";
+    }
 
-
-    // 1. Redacción de Peticiones Anteriores
+    // --- ALGORITMO DE REDACCIÓN NATURAL PARA NOTAS ---
     let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
     if (document.getElementById("peticion_si").checked) {
-    // --- ALGORITMO DE REDACCIÓN NATURAL PARA NOTAS DE ABOGADOS ---
-    
         let quePet = document.getElementById("que_peticion").value || "no especificada";
         let fechaPet = document.getElementById("fecha_peticion").value || "sin fecha";
         let tieneEv = document.getElementById("tiene_evidencia").checked;
@@ -259,7 +259,6 @@ if (fechaCitaInput && fechaCitaInput.includes("-")) {
         notaPeticion = `Previamente se inició una petición de inmigración tipo ${quePet} en la fecha ${fechaPet}, ${detalleEv}.`;
     }
 
-    // 2. Redacción de Detenciones
     let notaDetenciones = "No reporta detenciones por parte de las autoridades de migración.";
     if (document.getElementById("detenciones_si").checked) {
         let tiempoDet = document.getElementById("tiempo_detencion").value || "no especificado";
@@ -269,13 +268,11 @@ if (fechaCitaInput && fechaCitaInput.includes("-")) {
         notaDetenciones = `El cliente fue detenido por migración aproximadamente el ${fechaDet} por un lapso de ${tiempoDet}${detalleOrden}.`;
     }
 
-    // 3. Redacción de Familia Ciudadana
     let notaFamiliaCiu = "No menciona tener familiares directos con ciudadanía estadounidense.";
     if (document.getElementById("fam_ciu_si").checked) {
         let seleccionadosCiu = [];
         document.querySelectorAll(".check-familiar-ciu:checked").forEach(cb => seleccionadosCiu.push(cb.value));
         let parientes = seleccionadosCiu.length > 0 ? seleccionadosCiu.join(", ") : "familiares directos";
-        
         let subDetalles = "";
         if (document.getElementById("fam_ciu_hijos").checked) {
             let edadH = document.getElementById("hijos_ciu_edad").value || "no especificada";
@@ -290,13 +287,11 @@ if (fechaCitaInput && fechaCitaInput.includes("-")) {
         if (comentarioCiu) notaFamiliaCiu = `No tiene familiares ciudadanos directos, pero menciona parientes lejanos: ${comentarioCiu}.`;
     }
 
-    // 4. Redacción de Familia Residente
     let notaFamiliaRes = "No menciona tener familiares directos con residencia legal permanente.";
     if (document.getElementById("fam_res_si").checked) {
         let seleccionadosRes = [];
         document.querySelectorAll(".check-familiar-res:checked").forEach(cb => seleccionadosRes.push(cb.value));
         let parientesRes = seleccionadosRes.length > 0 ? seleccionadosRes.join(", ") : "familiares directos";
-        
         let subDetallesRes = "";
         if (document.getElementById("fam_res_hijos").checked) {
             let edadH = document.getElementById("hijos_res_edad").value || "no especificada";
@@ -311,7 +306,6 @@ if (fechaCitaInput && fechaCitaInput.includes("-")) {
         if (comentarioRes) notaFamiliaRes = `No tiene familiares residentes directos, pero comenta lo siguiente: ${comentarioRes}.`;
     }
 
-    // 5. Redacción de Cortes de Migración
     let notaCortes = "Actualmente no tiene próximas cortes de migración programadas.";
     if (document.getElementById("cortes_si").checked) {
         let fechaCorteProxima = document.getElementById("fecha_corte_proxima").value || "sin fecha";
@@ -320,12 +314,9 @@ if (fechaCitaInput && fechaCitaInput.includes("-")) {
     } else {
         let haPerdidoCorte = document.getElementById("perdido_si").checked;
         let haRevisadoDeportacion = document.getElementById("rev_dep_si").checked;
-        
         if (haPerdidoCorte || haRevisadoDeportacion) {
-            let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente debido a: ${document.getElementById("comentarios_perdido_nota").value || "razón no especificada"}. ` : "No reporta cortes perdidas en el pasado. ";
-            // CORRECCIÓN DE LECTURA: Lee la caja de comentarios de deportación como texto fluido
-            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación bajo el concepto: ${document.getElementById("fecha_orden_corte_input").value.trim() || "detalles no especificados"}. ` : "No tiene conocimiento de que se le haya abierto una orden de deportación por ausencia.";
-
+            let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente debido a: ${document.getElementById("comentarios_perdido_nota").value || "razón no especificada"}. ` : "No reporta cortes perdidas in el pasado. ";
+            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada bajo el concepto: ${document.getElementById("fecha_orden_corte_input").value.trim() || "sin detalles registrados"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación.";
             notaCortes = `No tiene próximas cortes. ${detallePerdido}${detalleOrden}`;
         } else {
             notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o estatus de orden de deportación bajo este concepto.";
