@@ -140,7 +140,7 @@
                     <input type="date" id="fecha_deportacion_orden">
                 </div>
             </div>
-                        <!-- SECCIÓN 3: FAMILIARES CIUDADANOS -->
+            <!-- SECCIÓN 3: FAMILIARES CIUDADANOS -->
             <div class="grupo-formulario ancho-completo" style="border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 15px;">
                 <label>¿Tiene familiares ciudadanos estadounidenses?</label>
                 <div class="opciones-radio">
@@ -179,7 +179,7 @@
 
             <div id="bloque_fam_ciu_no_comentarios" class="campo-oculto" style="display: none; grid-column: span 2; background-color: #f7fafc; padding: 15px; border-left: 4px solid #3182ce; border-radius: 4px; margin-bottom: 10px;">
                 <div class="grupo-formulario ancho-completo">
-                    <label for="comentarios_fam_ciu">Comentarios sobre familia ciudadana (ej: sobrinos, tíos, etc.):</label>
+                    <label for="comentarios_fam_ciu">Comentarios sobre familia ciudadana (ej: tíos, sobrinos, etc.):</label>
                     <input type="text" id="comentarios_fam_ciu" placeholder="Notas sobre familiares no directos">
                 </div>
             </div>
@@ -207,7 +207,7 @@
                         <label for="hijos_res_ejercito" style="font-weight: normal;">¿Estuvieron o están en el ejército?</label>
                     </div>
                     <div class="grupo-formulario ancho-completo" style="margin-top:10px; margin-bottom: 10px;">
-                        <label>¿Tienen algún problemático médico o espectro autista?</label>
+                        <label>¿Tienen algún problema médico o espectro autista?</label>
                         <div class="opciones-radio">
                             <label style="font-weight: normal;"><input type="radio" name="medico_hijos_res" value="SI" id="med_res_si" onclick="mostrarDiagResExtra()"> Sí</label>
                             <label style="font-weight: normal;"><input type="radio" name="medico_hijos_res" value="NO" id="med_res_no" checked onclick="ocultarDiagResExtra()"> No</label>
@@ -226,7 +226,7 @@
                     <input type="text" id="comentarios_fam_res" placeholder="Notas sobre familiares residentes no directos">
                 </div>
             </div>
-            <!-- SECCIÓN 5: CORTES DE MIGRACIÓN (Independiente) -->
+            <!-- SECCIÓN 5: CORTES DE MIGRACIÓN -->
             <div class="grupo-formulario ancho-completo" style="border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 15px;">
                 <label>¿Tiene próximas cortes de migración?</label>
                 <div class="opciones-radio">
@@ -270,7 +270,7 @@
                     </div>
                 </div>
                 <div id="bloque_fecha_orden_corte" style="display:none; margin-top:10px;" class="grupo-formulario ancho-completo">
-                    <label for="fecha_orden_corte_input">Fecha o detalles de la orden de deportación:</label>
+                    <label for="fecha_orden_corte_input">Detalle o notas de la orden de deportación:</label>
                     <input type="text" id="fecha_orden_corte_input" placeholder="Ej. Detalles de la orden">
                 </div>
             </div>
@@ -280,6 +280,7 @@
                 <button type="button" id="btnProcesar" class="btn-primary">Procesar Mensajes Automáticos</button>
             </div>
         </form>
+
         <!-- CONTENEDOR DE RESULTADOS VISUALES INDEPENDIENTE -->
         <div class="contenedor-resultados">
             <h2>Resultados Listos para Copiar</h2>
