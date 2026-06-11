@@ -237,11 +237,15 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
-    let fechaCitaFormateada = fechaCitaInput;
-    if (fechaCitaInput) {
-        let partesFecha = fechaCitaInput.split("-");
-        fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`;
-    }
+    // CORRECCIÓN DEFINITIVA: Formatea la fecha de forma segura sin congelar el botón
+let fechaCitaFormateada = fechaCitaInput;
+if (fechaCitaInput && fechaCitaInput.includes("-")) {
+    let partesFecha = fechaCitaInput.split("-");
+    fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`; // Día/Mes/Año
+} else {
+    fechaCitaFormateada = "Sin fecha";
+}
+
 
     // 1. Redacción de Peticiones Anteriores
     let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
