@@ -212,41 +212,46 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     boton.innerHTML = `Procesando Mensajes...`;
 
     let ahoraMismo = new Date();
-    let fechaLlamadaAutomatica = `${String(ahoraMismo.getDate()).padStart(2, '0')}/${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
+    let fechaLlamadaAutomatica = `${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${String(ahoraMismo.getDate()).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
 
+    // CORRECCIÓN DE HORA: Formatea a "9 AM" o "9:30 AM" sin duplicar minutos
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
-        let hrs = parseInt(partesHora, 10);
-        let mins = parseInt(partesHora, 10);
+        let hrs = parseInt(partesHora[0], 10);
+        let mins = parseInt(partesHora[1], 10);
         let ampm = hrs >= 12 ? "PM" : "AM";
         hrs = hrs % 12;
         hrs = hrs ? hrs : 12;
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
+    // CORRECCIÓN DE FECHA: Formato estricto de EE.UU (MM/DD/YYYY)
     let fechaCitaFormateada = fechaCitaInput;
     if (fechaCitaInput && fechaCitaInput.includes("-")) {
         let partesFecha = fechaCitaInput.split("-");
-        fechaCitaFormateada = `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}`; 
+        fechaCitaFormateada = `${partesFecha[1]}/${partesFecha[2]}/${partesFecha[0]}`; 
+    } else {
+        fechaCitaFormateada = "Sin fecha";
     }
-    // --- ALGORITMO DE REDACCIÓN NATURAL PARA NOTAS ---
-    let notaPeticion = "El cliente no tiene registro de peticiones de inmigración anteriores.";
+
+    // --- ALGORITMO DE REDACCIÓN NATURAL EN TERCERA PERSONA ---
+    let notaPeticion = "Él/Ella no registra ninguna petición de inmigración anterior en su historial.";
     if (document.getElementById("peticion_si").checked) {
         let quePet = document.getElementById("que_peticion").value || "no especificada";
         let fechaPet = document.getElementById("fecha_peticion").value || "sin fecha";
         let tieneEv = document.getElementById("tiene_evidencia").checked;
-        let detalleEv = tieneEv ? `y cuenta con evidencia física (${document.getElementById("que_evidencia").value || "documentos por verificar"})` : "pero no cuenta con evidencia física en este momento";
-        notaPeticion = `Previamente se inició una petición de inmigración tipo ${quePet} en la fecha ${fechaPet}, ${detalleEv}.`;
+        let detalleEv = tieneEv ? `y manifiesta contar con evidencia física de soporte (${document.getElementById("que_evidencia").value || "documentos por verificar"})` : "pero aclara que no tiene documentos o evidencia física en este momento";
+        notaPeticion = `Menciona que previamente se inició una petición de inmigración tipo ${quePet} en la fecha ${fechaPet}, ${detalleEv}.`;
     }
 
-    let notaDetenciones = "No reporta detenciones por parte de las autoridades de migración.";
+    let notaDetenciones = "No reporta haber tenido detenciones por parte de las autoridades de migración.";
     if (document.getElementById("detenciones_si").checked) {
-        let tiempoDet = document.getElementById("tiempo_detencion").value || "no especificado";
+        let tiempoDet = document.getElementById("tiempo_detencion").value || "un lapso no especificado";
         let fechaDet = document.getElementById("fecha_detencion").value || "sin fecha exacta";
         let ordenDep = document.getElementById("orden_dep_si").checked;
-        let detalleOrden = ordenDep ? `, derivando en una orden de deportación emitida el ${document.getElementById("fecha_deportacion_orden").value || "sin fecha registrada"}` : ", y no se le emitió ninguna orden de deportación";
-        notaDetenciones = `El cliente fue detenido por migración aproximadamente el ${fechaDet} por un lapso de ${tiempoDet}${detalleOrden}.`;
+        let detalleOrden = ordenDep ? `, lo cual derivó en una orden de deportación emitida el ${document.getElementById("fecha_deportacion_orden").value || "sin fecha registrada"}` : ", y confirma que no se le emitió ninguna orden de deportación";
+        notaDetenciones = `Informa que fue detenido por migración aproximadamente el ${fechaDet} por un lapso de ${tiempoDet}${detalleOrden}.`;
     }
 
     let notaFamiliaCiu = "No menciona tener familiares directos con ciudadanía estadounidense.";
@@ -257,66 +262,62 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         let subDetalles = "";
         if (document.getElementById("fam_ciu_hijos").checked) {
             let edadH = document.getElementById("hijos_ciu_edad").value || "no especificada";
-            let milH = document.getElementById("hijos_ciu_ejercito").checked ? "sí han estado en el ejército" : "no tienen historial militar";
+            let milH = document.getElementById("hijos_ciu_ejercito").checked ? "quienes sí han estado en el ejército" : "quienes no tienen historial militar";
             let tieneMed = document.getElementById("med_ciu_si").checked;
-            let medH = tieneMed ? `, confirmando un diagnóstico de: ${document.getElementById("diagnostico_ciu").value || "no detallado"}` : ", sin complicaciones médicas ni espectro autista";
-            subDetalles = ` Específicamente sobre los hijos ciudadanos, reporta que tienen ${edadH} de edad, ${milH}${medH}.`;
+            let medH = tieneMed ? `, confirmando un diagnóstico o tratamiento médico de: ${document.getElementById("diagnostico_ciu").value || "no detallado"}` : ", sin complicaciones médicas ni espectro autista";
+            subDetalles = ` Explica detalladamente sobre sus hijos ciudadanos que tienen ${edadH} de edad, ${milH}${medH}.`;
         }
-        notaFamiliaCiu = `Tiene familiares ciudadanos estadounidenses, incluyendo: ${parientes}.${subDetalles}`;
+        notaFamiliaCiu = `Comenta que tiene familiares ciudadanos estadounidenses, incluyendo a: ${parientes}.${subDetalles}`;
     } else {
         let comentarioCiu = document.getElementById("comentarios_fam_ciu").value.trim();
-        if (comentarioCiu) notaFamiliaCiu = `No tiene familiares ciudadanos directos, pero menciona parientes lejanos: ${comentarioCiu}.`;
+        if (comentarioCiu) notaFamiliaCiu = `Indica que no tiene familiares ciudadanos directos, pero menciona la siguiente situación de parientes lejanos: ${comentarioCiu}.`;
     }
-    // 4. Redacción de Familia Residente
+
     let notaFamiliaRes = "No menciona tener familiares directos con residencia legal permanente.";
     if (document.getElementById("fam_res_si").checked) {
         let seleccionadosRes = [];
         document.querySelectorAll(".check-familiar-res:checked").forEach(cb => seleccionadosRes.push(cb.value));
         let parientesRes = seleccionadosRes.length > 0 ? seleccionadosRes.join(", ") : "familiares directos";
-        
         let subDetallesRes = "";
         if (document.getElementById("fam_res_hijos").checked) {
             let edadH = document.getElementById("hijos_res_edad").value || "no especificada";
             let tieneMed = document.getElementById("med_res_si").checked;
-            let medH = tieneMed ? `, confirmando un diagnóstico de: ${document.getElementById("diagnostico_res").value || "no detallado"}` : ", sin complicaciones médicas ni espectro autista";
-            subDetallesRes = ` En el caso de los hijos residentes, tienen ${edadH} de edad${medH}.`;
+            let medH = tieneMed ? `, confirmando un diagnóstico o tratamiento médico de: ${document.getElementById("diagnostico_res").value || "no detallado"}` : ", sin complicaciones médicas ni espectro autista";
+            subDetallesRes = ` En el caso de sus hijos residentes, detalla que tienen ${edadH} de edad${medH}.`;
         }
-        notaFamiliaRes = `Tiene familiares con residencia legal permanente, incluyendo: ${parientesRes}.${subDetallesRes}`;
+        notaFamiliaRes = `Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: ${parientesRes}.${subDetallesRes}`;
     } else {
         let comentarioRes = document.getElementById("comentarios_fam_res").value.trim();
-        if (comentarioRes) notaFamiliaRes = `No tiene familiares residentes directos, pero comenta lo siguiente: ${comentarioRes}.`;
+        if (comentarioRes) notaFamiliaRes = `Señala que no tiene familiares residentes directos, pero comenta lo siguiente al respecto: ${comentarioRes}.`;
     }
 
-    // 5. Redacción de Cortes de Inmigración
-    let notaCortes = "Actualmente no tiene próximas cortes de migración programadas.";
+    let notaCortes = "Actualmente confirma que no tiene próximas cortes de migración programadas.";
     if (document.getElementById("cortes_si").checked) {
         let fechaCorteProxima = document.getElementById("fecha_corte_proxima").value || "sin fecha";
         let comentariosCorteSi = document.getElementById("comentarios_corte_si").value.trim() || "sin comentarios adicionales";
-        notaCortes = `El cliente presenta una corte de migración próxima programada para el ${fechaCorteProxima} (${comentariosCorteSi}).`;
+        notaCortes = `Refiere que presenta una corte de migración próxima programada para el ${fechaCorteProxima} (${comentariosCorteSi}).`;
     } else {
         let haPerdidoCorte = document.getElementById("perdido_si").checked;
         let haRevisadoDeportacion = document.getElementById("rev_dep_si").checked;
-        
         if (haPerdidoCorte || haRevisadoDeportacion) {
-            let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente debido a: ${document.getElementById("comentarios_perdido_nota").value || "razón no especificada"}. ` : "No reporta cortes perdidas en el pasado. ";
-            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada bajo el concepto: ${document.getElementById("fecha_orden_corte_input").value.trim() || "sin detalles registrados"}.` : "No tiene conocimiento de que se le haya abierto una orden de deportación.";
-            notaCortes = `No tiene próximas cortes. ${detallePerdido}${detalleOrden}`;
+            let detallePerdido = haPerdidoCorte ? `Admite haber perdido una corte anteriormente debido a: ${document.getElementById("comentarios_perdido_nota").value || "razón no especificada"}. ` : "Aclara que no reporta cortes perdidas en el pasado. ";
+            let detalleOrden = haRevisadoDeportacion ? `Al verificar su estatus, confirma una orden de deportación registrada bajo el concepto o detalles de: ${document.getElementById("fecha_orden_corte_input").value.trim() || "sin detalles específicos"}.` : "Expresa que no tiene conocimiento de que se le haya abierto una orden de deportación.";
+            notaCortes = `Indica que no tiene próximas cortes. ${detallePerdido}${detalleOrden}`;
         } else {
-            notaCortes = "No tiene próximas cortes programadas ni historial de cortes perdidas o estatus de orden de deportación bajo este concepto.";
+            notaCortes = "Asegura que no tiene próximas cortes programadas ni historial de cortes perdidas o estatus de orden de deportación bajo este concepto.";
         }
     }
 
-    // === CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS ===
+    // --- CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS ---
     let partesNombre = nombreCompleto.split(" ");
     let primerNombre = partesNombre[0] || "Cliente";
     let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
-
-    let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
+   let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy F. Padilla confirmando tu cita del ${fechaCitaFormateada} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
 
-    let historialCompleto = `HISTORIAL DE CONVERSACIÓN DE LA LLAMADA
+     let historialCompleto = `NOTAS DEL HISTORIAL DE LA LLAMADA
 ----------------------------------------
-CLIENTE: ${nombreCompleto.toUpperCase()}
+PC: ${nombreCompleto.toUpperCase()}
 TELÉFONO: ${telefono}
 FECHA DE NACIMIENTO: ${fechaNacimiento || "No registrada"}
 ESTADO CIVIL: ${estadoCivil.toUpperCase() || "No registrado"}
