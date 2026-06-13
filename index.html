@@ -38,6 +38,29 @@
                     <option value="Divorciado/a">Divorciado/a</option>
                 </select>
             </div>
+            <!-- NUEVO APARTADO: ESTATUS LEGAL DE LA PAREJA CON ACCIÓN DIRECTA -->
+            <div class="grupo-formulario">
+                <label for="estatusPareja">Estatus Legal de la Pareja:</label>
+                <select id="estatusPareja" name="estatusPareja" onchange="verificarEstatusPareja()">
+                    <option value="">--No aplica / Ninguno--</option>
+                    <option value="Ciudadano/a Estadounidense">Ciudadano/a Estadounidense</option>
+                    <option value="Residente Legal Permanente">Residente Legal Permanente</option>
+                    <option value="Inmigrante (Sin estatus)">Inmigrante (Sin estatus)</option>
+                </select>
+            </div>
+
+            <!-- BLOQUE OCULTO PARA DETALLES MATRIMONIALES (CIUDADANO O RESIDENTE) -->
+            <div id="bloque_detalles_pareja_extra" class="campo-oculto" style="display: none; grid-column: span 2; background-color: #f7fafc; padding: 15px; border-left: 4px solid #3182ce; border-radius: 4px; margin-bottom: 10px;">
+                <div class="grupo-formulario" style="margin-bottom: 10px;">
+                    <label for="fechaMatrimonio">Fecha del Matrimonio:</label>
+                    <input type="date" id="fechaMatrimonio">
+                </div>
+                <div class="grupo-formulario ancho-completo">
+                    <label for="comentariosPareja">Comentarios / Notas extras de la pareja:</label>
+                    <input type="text" id="comentariosPareja" placeholder="Ej. Tienen acta de matrimonio, se casaron en México">
+                </div>
+            </div>
+
 
             <div class="grupo-formulario">
                 <label for="fechaEntrada">Fecha de Entrada EE.UU:</label>

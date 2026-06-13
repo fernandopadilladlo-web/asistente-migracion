@@ -1,0 +1,229 @@
+====================================================
+JUNE 11 
+_____________________________________________________-
+
+5:17 PM/IMMI/DAVID FERNANDO/3222790974/FERNANDO PADILLA ( se eligio las 5 en punto)
+
+SomosDienerLaw Hola David soy F. Padilla confirmando tu cita del 16/06/2026 a las 5:17 PM en oficina 456 Sierra Ave, Fontana, CA Manda STOP para darte de baja (buena cantidad de caracteres) (haremos una base de datos en php o google sheets para que registremos las oficinas sus horarios y direcciones correctas)
+
+HISTORIAL DE CONVERSACIÓN DE LA LLAMADA (cambiar a Notas del historial de la llamada)
+----------------------------------------
+CLIENTE: DAVID FERNANDO ( Cambiar a PC en lugar de CLIENTE)
+TELÉFONO: 3222790974
+FECHA DE NACIMIENTO: 1996-02-09 (fomato de fecha de EE.UU) 
+ESTADO CIVIL: UNIÓN LIBRE (opciones : Casado(a) , Soltero(a), Union libre, Divorciado(a), Separado(a)) ( añadir apartado para poner el estatus de la pareja si tiene : Ciudadano , Residente legal permanente o Inmigrante) 
+FECHA DE ENTRADA A EE.UU: 2023-02-09 (fomato de fecha de EE.UU) 
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Previamente se inició una petición de inmigración tipo I-130 en la fecha 2024-02-09, y cuenta con evidencia física (Recibo).
+- El cliente fue detenido por migración aproximadamente el 2023-02-09 por un lapso de 2 dias , y no se le emitió ninguna orden de deportación. 
+- Tiene familiares ciudadanos estadounidenses, incluyendo: Hijos. Específicamente sobre los hijos ciudadanos, reporta que tienen 3 años  de edad, no tienen historial militar (omitir si son menores de 17 años) , confirmando un diagnóstico de: Autismo nivel 3 (especificar si hay diagnostico o tratamiento u/o terapias) 
+- Tiene familiares con residencia legal permanente, incluyendo: Esposo/a.
+- El cliente presenta una corte de migración próxima programada para el 2026-06-30 (Mi primera corte).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: Esta mal hecho el tiempo de justificacion me debio advertir el dia 15 , no todas las oficinas abren los sabados entonces en este caso esta bien la advertencia el 16 porque el 15 es lunes y el 14 es domingo pero el 13 es sabado y fontana no abre los sabados
+
+Confirmación de Cita: Sr/a DAVID FERNANDO, le esperamos en la oficina de Fontana el 16/06/2026 a las 5:17 PM. (no es necesario esto en las notas del historial de la llamada) 
+
+=============================================================
+JUNE 12 
+________________________________________________
+
+9:09 AM/IMMI/DAVID FERNANDO/3222145478/FERNANDO PADILLA (esta mal la hora)
+
+(SomosDienerLaw: tiene que estar separado) Hola David soy (F. Padilla: cambiar por Fernando P) confirmando tu cita del ( formato fecha : mm/dd a la(s) 00:00 a.m/p.m) en : (direccion de oficina) Responda  STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID FERNANDO
+TELÉFONO: 3222145478
+FECHA DE NACIMIENTO: 2000-06-18
+ESTADO CIVIL: UNIÓN LIBRE
+FECHA DE ENTRADA A EE.UU: 2025-01-11
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Previamente se inició una petición de inmigración tipo I-130 en la fecha 2025-02-09, y cuenta con evidencia física (El expediente esta con mi otro abogado y no me lo ha enviado ).
+- El cliente fue detenido por migración aproximadamente el 2025-01-11 por un lapso de 1 hora , y no se le emitió ninguna orden de deportación.
+- Tiene familiares ciudadanos estadounidenses, incluyendo: Padres.
+- Tiene familiares con residencia legal permanente, incluyendo: Padres.
+- El cliente presenta una corte de migración próxima programada para el 2026-06-27 (para ver si me deportan o no).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: Trabajo los fines de semana tambien y el lunes salgo a las 7 p.m , descanso el martes .
+
+Confirmación de Cita: Sr/a DAVID FERNANDO, le esperamos en la oficina de Fontana el 16/06/2026 a las 9:09 AM.
+
+12/06/2026	16/06/2026	9:09 AM	NUEVO		3222145478	Fontana	FERNANDO PADILLA	5784	https://desk.zoho.com/agent/dienerlaw/diener-law/tickets/details/460435000757014805
+=================================================
+JUNE 12 2da revision 
+_________________________________________
+
+9:30 AM/IMMI/DAVID PADILLA/3222790974/FERNANDO PADILLA
+
+SomosDienerLaw Hola David soy F. Padilla confirmando tu cita del 06/16/2026 a las 9:30 AM en oficina 456 Sierra Ave, Fontana, CA Manda STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID PADILLA
+TELÉFONO: 3222790974
+FECHA DE NACIMIENTO: 1996-02-09
+ESTADO CIVIL: UNIÓN LIBRE
+FECHA DE ENTRADA A EE.UU: 2018-05-20
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Menciona que previamente se inició una petición de inmigración tipo I-130 en la fecha 2019-06-10, y manifiesta contar con evidencia física de soporte (su abogado tiene su expediente ).
+- Informa que fue detenido por migración aproximadamente el 2018-06-26 por un lapso de 2 dias, y confirma que no se le emitió ninguna orden de deportación.
+- Comenta que tiene familiares ciudadanos estadounidenses, incluyendo a: Esposo/a.
+- Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: Padres.
+- Refiere que presenta una corte de migración próxima programada para el 2026-07-02 (Corte preeliminar).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: Solo puede los martes en la mañana
+
+Confirmación de Cita: Sr/a DAVID PADILLA, le esperamos en la oficina de Fontana el 06/16/2026 a las 9:30 AM.
+
+06/12/2026	06/16/2026	9:30 AM	NUEVO		3222790974	Fontana	FERNANDO PADILLA	58457	https://app.calltrackingmetrics.com/calls/desk#filter=8702752001&callNav=caller_profile&callId=4283918561
+
+=======================================
+JUNIO 13 
+___________________________________________
+
+9:30 AM/IMMI/DAVID PADILLA/3222790974/FERNANDO PADILLA
+
+SomosDienerLaw Hola David soy F. Padilla confirmando tu cita del 06/17/2026 a las 9:30 AM en oficina 789 Main St, Santa Ana, CA Manda STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID PADILLA
+TELÉFONO: 3222790974
+FECHA DE NACIMIENTO: 02/09/1996
+ESTADO CIVIL: UNIÓN LIBRE
+FECHA DE ENTRADA A EE.UU: 02/09/2005
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Menciona que previamente se inició una petición de inmigración tipo I-130 en la fecha 2006-06-12, y manifiesta contar con evidencia física de soporte (Tiene el expediente completo ).
+- No reporta haber tenido detenciones por parte de las autoridades de migración.
+- Comenta que tiene familiares ciudadanos estadounidenses, incluyendo a: Padres.
+- Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: Padres.
+- Refiere que presenta una corte de migración próxima programada para el 2026-07-10 (Necesita un abogado que lo acompañe en la corte).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: Solo puede los dias martes
+
+06/13/2026	06/17/2026	9:30 AM	NUEVO		3222790974	Santa Ana	FERNANDO PADILLA	68464	https://crm.zoho.com/crm/org702183213/tab/Events/custom-view/4307469000142969549/list?page=1&filter_id=4307469001493645388
+
+=========================
+JUNIO 13 2da revision
+________________________________
+
+11:30 AM/IMMI/DAVID FERNANDO/3222795846/FERNANDO PADILLA
+
+SomosDienerLaw Hola David soy F. Padilla confirmando tu cita del 06/17/2026 a las 11:30 AM en oficina 456 Sierra Ave, Fontana, CA Manda STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID FERNANDO
+TELÉFONO: 3222795846
+FECHA DE NACIMIENTO: 02/09/1996
+ESTADO CIVIL: CASADO/A
+FECHA DE ENTRADA A EE.UU: 02/09/2003
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Menciona que previamente se inició una petición de inmigración tipo I-130 en la fecha 02/09/2004, y cuenta con evidencia física (recibos y expediente completo ).
+- No reporta haber tenido detenciones por parte de las autoridades de migración.
+- Comenta que tiene familiares ciudadanos estadounidenses, incluyendo a: Padres.
+- Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: Esposo/a.
+- Refiere que presenta una corte de migración próxima programada para el 07/11/2026 (es corte para su dictamen final).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: puede ir solo el mircoles porque descansa
+
+06/13/2026	06/17/2026	11:30 AM	NUEVO		3222795846	Fontana	FERNANDO PADILLA	651616541	https://www.allareacodes.com/678
+
+
+==================================
+JUNE 13 3ra revision 
+_____________________________________
+
+5:30 PM/IMMI/DAVID FERNANDO/3222790974/FERNANDO PADILLA
+
+SomosDienerLaw Hola David soy F. Padilla confirmando tu cita del 06/17/2026 a las 5:30 PM en oficina 1011 Long Beach Blvd, Lynwood, CA Manda STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID FERNANDO
+TELÉFONO: 3222790974
+FECHA DE NACIMIENTO: 02/09/1996
+ESTADO CIVIL: CASADO/A (Pareja: Residente Legal Permanente)
+FECHA DE ENTRADA A EE.UU: 06/27/2015
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Menciona que previamente se inició una petición de inmigración tipo I-130 en la fecha 06/26/2016, y cuenta con evidencia física (el pc tiene recibos y expediente de la peticion).
+- No reporta haber tenido detenciones por parte de las autoridades de migración.
+- Comenta que tiene familiares ciudadanos estadounidenses, incluyendo a: Padres.
+- Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: Esposo/a.
+- Refiere que presenta una corte de migración próxima programada para el 07/08/2026 (le da miedo ir sin abogado).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: porque ese dia descansa
+
+06/13/2026	06/17/2026	5:30 PM	NUEVO		3222790974	Lynwood	FERNANDO PADILLA	#1201692	https://desk.zoho.com/agent/dienerlaw/diener-law/tickets/details/460435000828164449
+
+
+
+==================================
+JUNE 13 4ta  revision 
+_____________________________________
+
+9:30 AM/IMMI/DAVID FERNANDO/3222790974/FERNANDO PADILLA
+
+SomosDienerLaw Hola David soy F. Padilla confirmando tu cita del 06/17/2026 a las 9:30 AM en oficina 456 Sierra Ave, Fontana, CA Manda STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID FERNANDO
+TELÉFONO: 3222790974
+FECHA DE NACIMIENTO: 02/09/1996
+ESTADO CIVIL: CASADO/A (Pareja: Residente Legal Permanente)
+FECHA DE ENTRADA A EE.UU: 06/17/2000
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Menciona que previamente se inició una petición de inmigración tipo I-130  en la fecha 04/15/2025, y cuenta con evidencia física (tienen el recibo ).
+- No reporta haber tenido detenciones por parte de las autoridades de migración.
+- Indica que no tiene familiares ciudadanos directos, pero menciona la siguiente situación de parientes lejanos: tiene tia ciudadana en Anaheim California.
+- Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: Esposo/a.
+- Refiere que presenta una corte de migración próxima programada para el 07/08/2026 (tiene miedo de ir sin abogado).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: Solo puede los miércoles
+
+06/13/2026	06/17/2026	9:30 AM	NUEVO		3222790974	Fontana	FERNANDO PADILLA	#1201692	https://desk.zoho.com/agent/dienerlaw/diener-law/tickets/details/460435000828164449
+
+========================
+JUNE 13 4ta revision
+
+____________________________
+
+10:30 AM/IMMI/DAVID PADILLA/3222790974/FERNANDO PADILLA
+
+SomosDienerLaw Hola David,Padilla soy F. Padilla confirmando tu cita del 06/17/2026 a las 10:30 AM en oficina 456 Sierra Ave, Fontana, CA Manda STOP para darte de baja
+
+NOTAS DEL HISTORIAL DE LA LLAMADA
+----------------------------------------
+PC: DAVID PADILLA
+TELÉFONO: 3222790974
+FECHA DE NACIMIENTO: 02/09/1996
+ESTADO CIVIL: CASADO/A (Casado/a con un/a Ciudadano/a Estadounidense desde la fecha 06/17/2019 (Se casaron en Mexico))
+FECHA DE ENTRADA A EE.UU: 06/17/2002
+
+DETALLES DEL DIAGNÓSTICO MIGRATORIO:
+- Menciona que previamente se inició una petición de inmigración tipo I-130 en la fecha 02/09/2020, y cuenta con evidencia física (Recibos ).
+- No reporta haber tenido detenciones por parte de las autoridades de migración.
+- Comenta que tiene familiares ciudadanos estadounidenses, incluyendo a: Esposo/a.
+- Manifiesta que tiene familiares con residencia legal permanente, incluyendo a: Padres.
+- Refiere que presenta una corte de migración próxima programada para el 06/10/2027 (cree que necesita abogado para la corte).
+
+JUSTIFICACIÓN DE AGENDAMIENTO: Solo pueden los miercoles
+
+
+06/13/2026	06/17/2026	10:30 AM	NUEVO		3222790974	Fontana	FERNANDO PADILLA	#451561	https://desk.zoho.com/agent/dienerlaw/diener-law/tickets/details/460435000802591784
+
+
+
+
+
+

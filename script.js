@@ -29,6 +29,21 @@ function verificarFechaCita() {
     }
 }
 
+// === AQUÍ VA EXACTAMENTE EL CÓDIGO DE LA PAREJA ===
+function verificarEstatusPareja() {
+    let valorElegido = document.getElementById("estatusPareja").value;
+    let bloqueExtra = document.getElementById("bloque_detalles_pareja_extra");
+
+    if (valorElegido === "Ciudadano/a Estadounidense" || valorElegido === "Residente Legal Permanente") {
+        bloqueExtra.style.display = "block";
+    } else {
+        bloqueExtra.style.display = "none";
+        document.getElementById("fechaMatrimonio").value = "";
+        document.getElementById("comentariosPareja").value = "";
+    }
+}
+
+
 // Sección 1: Peticiones Anterior
 function mostrarPeticionExtra() {
     document.getElementById("bloque_peticion_extra").style.display = "block";
@@ -174,7 +189,7 @@ function ocultarFechaOrdenCorteExtra() {
     document.getElementById("fecha_orden_corte_input").value = "";
 }
 
-// === 2. PROCESAR MENSAJES AUTOMÁTICOS ===
+// === 2. PROCESAR MENSAJES AUTOMÁTICOS (MOTOR DE CÁLCULO GENERAL) ===
 document.getElementById("btnProcesar").addEventListener("click", function() {
     let boton = this;
     
@@ -189,6 +204,19 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let fechaNacimiento = document.getElementById("fechaNacimiento") ? document.getElementById("fechaNacimiento").value : "";
     let fechaEntrada = document.getElementById("fechaEntrada") ? document.getElementById("fechaEntrada").value : "";
     let estadoCivil = document.getElementById("estadoCivil") ? document.getElementById("estadoCivil").value : "";
+    let estatusPareja = document.getElementById("estatusPareja") ? document.getElementById("estatusPareja").value : "";
+
+    let fechaMatrimonioInput = document.getElementById("fechaMatrimonio") ? document.getElementById("fechaMatrimonio").value : "";
+    let comentariosPareja = document.getElementById("comentariosPareja") ? document.getElementById("comentariosPareja").value.trim() : "";
+
+    // Convertidor estricto a formato americano (MM/DD/YYYY) para la fecha de matrimonio
+    let fechaMatrimonioFormateada = "sin fecha registrada";
+    if (fechaMatrimonioInput && fechaMatrimonioInput.includes("-")) {
+        let partesM = fechaMatrimonioInput.split("-");
+        fechaMatrimonioFormateada = `${partesM[1]}/${partesM[2]}/${partesM[0]}`; // Mes/Día/Año
+    }
+
+
     let justificacionFecha = document.getElementById("justificacionFecha") ? document.getElementById("justificacionFecha").value.trim() : "";
 
     if (!nombreCompleto || !telefono || !oficinaSeleccionada || !hora || !fechaCitaInput) {
@@ -214,7 +242,6 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     let ahoraMismo = new Date();
     let fechaLlamadaAutomatica = `${String(ahoraMismo.getMonth() + 1).padStart(2, '0')}/${String(ahoraMismo.getDate()).padStart(2, '0')}/${ahoraMismo.getFullYear()}`;
 
-    // CORRECCIÓN DE HORA: Formatea a "9 AM" o "9:30 AM" sin duplicar minutos
     let horaFormateada = "Hora no definida";
     if (hora) {
         let partesHora = hora.split(":");
@@ -226,29 +253,50 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         horaFormateada = (mins === 0) ? `${hrs} ${ampm}` : `${hrs}:${mins < 10 ? "0" + mins : mins} ${ampm}`;
     }
 
-    // CORRECCIÓN DE FECHA: Formato estricto de EE.UU (MM/DD/YYYY)
-    let fechaCitaFormateada = fechaCitaInput;
+    // === ALGORITMO DE CONVERSIÓN ESTRICTO A FORMATO AMERICANO (MM/DD/YYYY) ===
+    let fechaCitaFormateada = "Sin fecha";
     if (fechaCitaInput && fechaCitaInput.includes("-")) {
-        let partesFecha = fechaCitaInput.split("-");
-        fechaCitaFormateada = `${partesFecha[1]}/${partesFecha[2]}/${partesFecha[0]}`; 
-    } else {
-        fechaCitaFormateada = "Sin fecha";
+        let partes = fechaCitaInput.split("-");
+        fechaCitaFormateada = `${partes[1]}/${partes[2]}/${partes[0]}`; 
     }
 
-    // --- ALGORITMO DE REDACCIÓN NATURAL EN TERCERA PERSONA ---
+    let fechaNacimientoFormateada = "No registrada";
+    if (fechaNacimiento && fechaNacimiento.includes("-")) {
+        let partesNac = fechaNacimiento.split("-");
+        fechaNacimientoFormateada = `${partesNac[1]}/${partesNac[2]}/${partesNac[0]}`; 
+    }
+
+    let fechaEntradaFormateada = "No registrada";
+    if (fechaEntrada && fechaEntrada.includes("-")) {
+        let partesEnt = fechaEntrada.split("-");
+        fechaEntradaFormateada = `${partesEnt[1]}/${partesEnt[2]}/${partesEnt[0]}`; 
+    }
+
+    // --- ALGORITMO DE REDACCIÓN NATURAL PARA NOTAS ---
     let notaPeticion = "Él/Ella no registra ninguna petición de inmigración anterior en su historial.";
     if (document.getElementById("peticion_si").checked) {
         let quePet = document.getElementById("que_peticion").value || "no especificada";
-        let fechaPet = document.getElementById("fecha_peticion").value || "sin fecha";
-        let tieneEv = document.getElementById("tiene_evidencia").checked;
-        let detalleEv = tieneEv ? `y manifiesta contar con evidencia física de soporte (${document.getElementById("que_evidencia").value || "documentos por verificar"})` : "pero aclara que no tiene documentos o evidencia física en este momento";
-        notaPeticion = `Menciona que previamente se inició una petición de inmigración tipo ${quePet} en la fecha ${fechaPet}, ${detalleEv}.`;
-    }
+        
+        let fechaPetInput = document.getElementById("fecha_peticion").value;
+        let fechaPetFormateada = "sin fecha";
+        if (fechaPetInput && fechaPetInput.includes("-")) {
+            let partesP = fechaPetInput.split("-");
+            fechaPetFormateada = `${partesP[1]}/${partesP[2]}/${partesP[0]}`; 
+        }
 
+        let tieneEv = document.getElementById("tiene_evidencia").checked;
+        let detalleEv = tieneEv ? `, y cuenta con evidencia física (${document.getElementById("que_evidencia").value || "documentos por verificar"})` : " pero aclara que no tiene documentos o evidencia física en este momento";
+        
+        notaPeticion = `Menciona que previamente se inició una petición de inmigración tipo ${quePet} en la fecha ${fechaPetFormateada}${detalleEv}.`;
+    }
     let notaDetenciones = "No reporta haber tenido detenciones por parte de las autoridades de migración.";
     if (document.getElementById("detenciones_si").checked) {
         let tiempoDet = document.getElementById("tiempo_detencion").value || "un lapso no especificado";
         let fechaDet = document.getElementById("fecha_detencion").value || "sin fecha exacta";
+        if (fechaDet && fechaDet.includes("-")) {
+            let partesD = fechaDet.split("-");
+            fechaDet = `${partesD[1]}/${partesD[2]}/${partesD[0]}`;
+        }
         let ordenDep = document.getElementById("orden_dep_si").checked;
         let detalleOrden = ordenDep ? `, lo cual derivó en una orden de deportación emitida el ${document.getElementById("fecha_deportacion_orden").value || "sin fecha registrada"}` : ", y confirma que no se le emitió ninguna orden de deportación";
         notaDetenciones = `Informa que fue detenido por migración aproximadamente el ${fechaDet} por un lapso de ${tiempoDet}${detalleOrden}.`;
@@ -293,9 +341,15 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
 
     let notaCortes = "Actualmente confirma que no tiene próximas cortes de migración programadas.";
     if (document.getElementById("cortes_si").checked) {
-        let fechaCorteProxima = document.getElementById("fecha_corte_proxima").value || "sin fecha";
-        let comentariosCorteSi = document.getElementById("comentarios_corte_si").value.trim() || "sin comentarios adicionales";
-        notaCortes = `Refiere que presenta una corte de migración próxima programada para el ${fechaCorteProxima} (${comentariosCorteSi}).`;
+        let fechaCorteInput = document.getElementById("fecha_corte_proxima").value;
+        let fechaCorteFormateadaUsa = "sin fecha";
+        if (fechaCorteInput && fechaCorteInput.includes("-")) {
+            let partesC = fechaCorteInput.split("-");
+            fechaCorteFormateadaUsa = `${partesC[1]}/${partesC[2]}/${partesC[0]}`; 
+        }
+        let comentariosCorteSi = document.getElementById("comentarios_corte_si").value.trim();
+        let detalleComentario = comentariosCorteSi ? ` (${comentariosCorteSi})` : "";
+        notaCortes = `Refiere que presenta una corte de migración próxima programada para el ${fechaCorteFormateadaUsa}${detalleComentario}.`;
     } else {
         let haPerdidoCorte = document.getElementById("perdido_si").checked;
         let haRevisadoDeportacion = document.getElementById("rev_dep_si").checked;
@@ -308,20 +362,32 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         }
     }
 
-    // --- CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS ---
+          // === CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS (REDACTOR MATRIMONIAL FLUIDO) ===
     let partesNombre = nombreCompleto.split(" ");
-    let primerNombre = partesNombre[0] || "Cliente";
+    let primerNombre = partesNombre || "Cliente";
     let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
-   let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
+
+    let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy F. Padilla confirmando tu cita del ${fechaCitaFormateada} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
 
-     let historialCompleto = `NOTAS DEL HISTORIAL DE LA LLAMADA
+    // Redacción inteligente en tercera persona según el estatus legal elegido
+    let detallePareja = "";
+    if (estatusPareja === "Ciudadano/a Estadounidense" || estatusPareja === "Residente Legal Permanente") {
+        let notaNota = comentariosPareja ? ` (${comentariosPareja})` : "";
+        detallePareja = ` (Casado/a con un/a ${estatusPareja} desde la fecha ${fechaMatrimonioFormateada}${notaNota})`;
+    } else if (estatusPareja === "Inmigrante (Sin estatus)") {
+        detallePareja = ` (Pareja: ${estatusPareja})`;
+    } else {
+        detallePareja = " (Pareja: No registrada)";
+    }
+
+    let historialCompleto = `NOTAS DEL HISTORIAL DE LA LLAMADA
 ----------------------------------------
 PC: ${nombreCompleto.toUpperCase()}
 TELÉFONO: ${telefono}
-FECHA DE NACIMIENTO: ${fechaNacimiento || "No registrada"}
-ESTADO CIVIL: ${estadoCivil.toUpperCase() || "No registrado"}
-FECHA DE ENTRADA A EE.UU: ${fechaEntrada || "No registrada"}
+FECHA DE NACIMIENTO: ${fechaNacimientoFormateada}
+ESTADO CIVIL: ${estadoCivil.toUpperCase() || "No registrado"}${detallePareja}
+FECHA DE ENTRADA A EE.UU: ${fechaEntradaFormateada}
 
 DETALLES DEL DIAGNÓSTICO MIGRATORIO:
 - ${notaPeticion}
@@ -330,9 +396,7 @@ DETALLES DEL DIAGNÓSTICO MIGRATORIO:
 - ${notaFamiliaRes}
 - ${notaCortes}
 
-JUSTIFICACIÓN DE AGENDAMIENTO: ${justificacionFecha || "Cita programada dentro del rango estándar."}
-
-Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la oficina de ${oficinaSeleccionada} el ${fechaCitaFormateada} a las ${horaFormateada}.`;
+JUSTIFICACIÓN DE AGENDAMIENTO: ${justificacionFecha || "Cita programada dentro del rango estándar."}`;
 
     let filaExcelFormateada = `${fechaLlamadaAutomatica}\t${fechaCitaFormateada}\t${horaFormateada}\tNUEVO\t\t${telefono}\t${oficinaSeleccionada}\tFERNANDO PADILLA\t${ticketId}\t${zohoUrl}`;
 
@@ -348,9 +412,9 @@ Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la 
     contenedorContador.innerText = totalCaracteres;
 
     if (totalCaracteres > 160) {
-        contenedorContador.style.color = "#e53e3e"; // Rojo si excede
+        contenedorContador.style.color = "#e53e3e";
     } else {
-        contenedorContador.style.color = "#2f855a"; // Verde a salvo
+        contenedorContador.style.color = "#2f855a";
     }
 
     setTimeout(function() {
@@ -358,6 +422,7 @@ Confirmación de Cita: Sr/a ${nombreCompleto.toUpperCase()}, le esperamos en la 
         boton.innerHTML = "Procesar Mensajes Automáticos";
     }, 50);
 });
+
 
 // === 3. MOTOR UNIVERSAL DE COPIADO ===
 function activarBotonCopiado(idBotón, idElementoTexto, idSpanAlerta) {
@@ -402,6 +467,8 @@ document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("bloque_cortes_no").style.display = "none";
     document.getElementById("bloque_fecha_perdido").style.display = "none";
     document.getElementById("bloque_fecha_orden_corte").style.display = "none";
+    document.getElementById("bloque_detalles_pareja_extra").style.display = "none";
+
 
     // Limpiar textos de resultados
     document.getElementById("resultadoTag").innerText = "";
@@ -410,5 +477,6 @@ document.getElementById("btnLimpiar").addEventListener("click", function() {
     document.getElementById("resultadoFilaExcel").value = "";
     document.getElementById("contadorCaracteres").innerText = "0";
     document.getElementById("contadorCaracteres").style.color = "#4a5568";
+
     alert("Formulario limpio y apartados ocultados con éxito.");
 });
