@@ -1,10 +1,35 @@
-// === DICCIONARIO DE OFICINAS ===
-const direccionesOficinas = {
-    "Phoenix": "123 North Central Ave, Phoenix, AZ",
-    "Fontana": "456 Sierra Ave, Fontana, CA",
-    "Santa Ana": "789 Main St, Santa Ana, CA",
-    "Lynwood": "1011 Long Beach Blvd, Lynwood, CA"
-};
+// === CEREBRO DE BASE DE DATOS PORTÁTIL (LECTOR DE OFICINAS JSON) ===
+let baseDatosOficinas = [];
+
+// Descargar la base de datos automáticamente desde tu archivo oficinas.json
+fetch("oficinas.json")
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        baseDatosOficinas = datos;
+        console.log("¡✅ Base de datos de Diener Law cargada con éxito!");
+    })
+    .catch(error => {
+        console.log("Aviso local: Cargando respaldo de emergencia en memoria.");
+        // Respaldo instantáneo por si el navegador bloquea el archivo localmente por seguridad
+        baseDatosOficinas = [
+            { "nombre": "Phoenix", "direccion": "3223 W Indian School Rd suite 110, Phoenix, AZ 85017" },
+            { "nombre": "Santa Ana", "direccion": "1710 17th St D, Santa Ana, CA 92705" },
+            { "nombre": "Fontana", "direccion": "16184 Foothill Blvd Ste I, Fontana, CA 92335" },
+            { "nombre": "Lynwood", "direccion": "3837 Martin Luther King Jr Blvd St 101, Lynwood, CA 90262" },
+            { "nombre": "Dallas", "direccion": "3420 W Illinois Ave Ste 700, Dallas, TX 75211" },
+            { "nombre": "West Houston", "direccion": "5720 Bellaire Blvd Ste C1, Houston, TX 77081" },
+            { "nombre": "South Houston", "direccion": "1611 Spencer Hwy Ste F, South Houston, TX 77587" },
+            { "nombre": "Charlotte", "direccion": "3116 Milton Rd A, Charlotte, NC 28215" },
+            { "nombre": "Greensboro", "direccion": "412 W Market St, Greensboro, NC 27401" },
+            { "nombre": "Raleigh", "direccion": "421 Chapanoke Rd #161, Raleigh, NC 27603" },
+            { "nombre": "Durham", "direccion": "2000 Avondale Dr W, Durham, NC 27704" },
+            { "nombre": "Mount Olive", "direccion": "302 North Carolina Highway 55 W Ste 100, Mt Olive, NC 28365" },
+            { "nombre": "Greenville", "direccion": "308 Greenville Blvd SE # A, Greenville, NC 27858" },
+            { "nombre": "Wilmington", "direccion": "7627 Market St Suite 101, Wilmington, NC 28411" },
+            { "nombre": "Virtual", "direccion": "Atención Telefónica / Videollamada" }
+        ];
+    });
+
 
 // === 1. CONTROLADORES VISUALES DIRECTOS (APERTURA INSTANTÁNEA) ===
 
@@ -362,10 +387,13 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
         }
     }
 
-          // === CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS (REDACTOR MATRIMONIAL FLUIDO) ===
+              // === CONSTRUCCIÓN FINAL DE TEXTOS AUTOMÁTICOS (CONEXIÓN CON BASE DE DATOS JSON) ===
     let partesNombre = nombreCompleto.split(" ");
-    let primerNombre = partesNombre || "Cliente";
-    let direccionExacta = direccionesOficinas[oficinaSeleccionada] || "Dirección no encontrada";
+    let primerNombre = partesNombre[0] || "Cliente";
+
+    // Buscar la dirección física exacta de forma inteligente dentro de la base de datos JSON
+    let oficinaEncontrada = baseDatosOficinas.find(o => o.nombre === oficinaSeleccionada);
+    let direccionExacta = oficinaEncontrada ? oficinaEncontrada.direccion : "Dirección no encontrada";
 
     let tagCita = `${horaFormateada}/IMMI/${nombreCompleto.toUpperCase()}/${telefono}/FERNANDO PADILLA`;
     let mensajeSms = `SomosDienerLaw Hola ${primerNombre} soy F. Padilla confirmando tu cita del ${fechaCitaFormateada} a las ${horaFormateada} en oficina ${direccionExacta} Manda STOP para darte de baja`;
@@ -373,20 +401,20 @@ document.getElementById("btnProcesar").addEventListener("click", function() {
     // Redacción inteligente en tercera persona según el estatus legal elegido
     let detallePareja = "";
     if (estatusPareja === "Ciudadano/a Estadounidense" || estatusPareja === "Residente Legal Permanente") {
-        let notaNota = comentariosPareja ? ` (${comentariosPareja})` : "";
-        detallePareja = ` (Casado/a con un/a ${estatusPareja} desde la fecha ${fechaMatrimonioFormateada}${notaNota})`;
+        let notaNota = comentariosPareja ? ` teniendo como observación que ${comentariosPareja}` : "";
+        detallePareja = `, quien reporta estar en matrimonio con una persona de estatus ${estatusPareja} desde el ${fechaMatrimonioFormateada}${notaNota}`;
     } else if (estatusPareja === "Inmigrante (Sin estatus)") {
-        detallePareja = ` (Pareja: ${estatusPareja})`;
+        detallePareja = `, mencionando que su pareja actual es inmigrante sin estatus legal en el país`;
     } else {
-        detallePareja = " (Pareja: No registrada)";
+        detallePareja = " (sin registro de pareja o datos conyugales en la llamada)";
     }
 
     let historialCompleto = `NOTAS DEL HISTORIAL DE LA LLAMADA
 ----------------------------------------
-PC: ${nombreCompleto.toUpperCase()}
+PC: ${nombreCompleto.toUpperCase()}${detallePareja}
 TELÉFONO: ${telefono}
 FECHA DE NACIMIENTO: ${fechaNacimientoFormateada}
-ESTADO CIVIL: ${estadoCivil.toUpperCase() || "No registrado"}${detallePareja}
+ESTADO CIVIL: ${estadoCivil.toUpperCase() || "No registrado"}
 FECHA DE ENTRADA A EE.UU: ${fechaEntradaFormateada}
 
 DETALLES DEL DIAGNÓSTICO MIGRATORIO:
@@ -408,13 +436,10 @@ JUSTIFICACIÓN DE AGENDAMIENTO: ${justificacionFecha || "Cita programada dentro 
 
     // CONTROL DEL CONTADOR EN TIEMPO REAL
     let totalCaracteres = mensajeSms.length;
-    let contenedorContador = document.getElementById("contadorCaracteres");
-    contenedorContador.innerText = totalCaracteres;
-
-    if (totalCaracteres > 160) {
-        contenedorContador.style.color = "#e53e3e";
-    } else {
-        contenedorContador.style.color = "#2f855a";
+    let contenedorContador = document.getElementById("contadorCharacters") || document.getElementById("contadorCaracteres");
+    if (contenedorContador) {
+        contenedorContador.innerText = totalCaracteres;
+        contenedorContador.style.color = (totalCaracteres > 160) ? "#e53e3e" : "#2f855a";
     }
 
     setTimeout(function() {

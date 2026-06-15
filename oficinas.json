@@ -1,0 +1,17 @@
+[
+    { "nombre": "Phoenix", "direccion": "3223 W Indian School Rd suite 110, Phoenix, AZ 85017", "horario": "9 AM - 3 PM" },
+    { "nombre": "Santa Ana", "direccion": "1710 17th St D, Santa Ana, CA 92705", "horario": "9 AM - 3 PM" },
+    { "nombre": "Fontana", "direccion": "16184 Foothill Blvd Ste I, Fontana, CA 92335", "horario": "9 AM - 3 PM" },
+    { "nombre": "Lynwood", "direccion": "3837 Martin Luther King Jr Blvd St 101, Lynwood, CA 90262", "horario": "9 AM - 3 PM" },
+    { "nombre": "Dallas", "direccion": "3420 W Illinois Ave Ste 700, Dallas, TX 75211", "horario": "9 AM - 3 PM" },
+    { "nombre": "West Houston", "direccion": "5720 Bellaire Blvd Ste C1, Houston, TX 77081", "horario": "9 AM - 3 PM" },
+    { "nombre": "South Houston", "direccion": "1611 Spencer Hwy Ste F, South Houston, TX 77587", "horario": "9 AM - 3 PM" },
+    { "nombre": "Charlotte", "direccion": "3116 Milton Rd A, Charlotte, NC 28215", "horario": "9 AM - 3 PM" },
+    { "nombre": "Greensboro", "direccion": "412 W Market St, Greensboro, NC 27401", "horario": "9 AM - 3 PM" },
+    { "nombre": "Raleigh", "direccion": "421 Chapanoke Rd #161, Raleigh, NC 27603", "horario": "9 AM - 3 PM" },
+    { "nombre": "Durham", "direccion": "2000 Avondale Dr W, Durham, NC 27704", "horario": "9 AM - 3 PM" },
+    { "nombre": "Mount Olive", "direccion": "302 North Carolina Highway 55 W Ste 100, Mt Olive, NC 28365", "horario": "9 AM - 3 PM" },
+    { "nombre": "Greenville", "direccion": "308 Greenville Blvd SE # A, Greenville, NC 27858", "horario": "9 AM - 3 PM" },
+    { "nombre": "Wilmington", "direccion": "7627 Market St Suite 101, Wilmington, NC 28411", "horario": "9 AM - 3 PM" },
+    { "nombre": "Virtual", "direccion": "Atención Telefónica / Videollamada", "horario": "9 AM - 3 PM" }
+]
